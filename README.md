@@ -16,3 +16,17 @@
   * minidocx: 生成Docx文件的基本元素，包括设置对齐、段落、字体、大小、颜色、图像、表格
   * pdfium: 实现PDF到高清PNG的转换
 * introduction.txt：实现的具体思路与流程
+* 项目配置属性：
+  * 开发平台：Visual Studio 2022
+  * 语言：ISO C++20 标准 (/std:c++20)
+  * 配置-Release，平台-x64
+  * 附加包含目录：
+    * ...\minidocx-next\minidocx-next\include\minidocx
+    * ...\pugixml-master\src
+    * ...\pdfium\include\public
+  * 附加库目录：
+    * ...\minidocx-next\minidocx-next\build\bin\lib\Release
+    * ...\pdfium\include\public
+  * 附加依赖项：
+    * minidocx.lib
+    * pdfium.lib
