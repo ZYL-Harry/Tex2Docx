@@ -1,0 +1,26 @@
+·iostream		处理控制台的IO
+·fstream		处理命名文件的IO
+·stringstream	处理内存string的IO
+
+类型ifstream（文件流） - 位于头文件<fstream>中
+
+类型stringstream（文件流） - 位于头文件<sstream>中
+
+--------------------------------------------------------------------
+
+minidocx功能：设置对齐、段落、字体、大小、颜色
+
+生成：Document::saveAs
+		->Document::flush
+			->writeOfficeDocument
+				->writeBlock
+					->writeParagraph & writeTable
+						->writeRun
+							->writeRichText & writePicture
+								->writeText
+	section=>section
+	block<Paragraph>=>paragraph
+	run=>richtext
+1) 新写一个函数实现：runs_.push_back(公式)——类似：paragraph->addRichText
+2) 和同段的richtext一起blocks_.push_back(段落)——this->section->addParagraph()
+3) 和同章的paragraph一起sections_.push_back(章节)——this->document_docx.addSection()

@@ -1,0 +1,237 @@
+读取：递归处理上下标，退出条件是无'{'和'}'
+写入：递归，根节点不断随上下标文字传入
+
+输入：字符串：P_{s}\neq P_{s^{\prime}}
+
+struct FormulaNode {
+        std::string data;
+        std::shared_ptr<FormulaNode> sup;
+        std::shared_ptr<FormulaNode> sub;
+};
+
+while (pos < formula.length())
+{
+	FormulaNode* formula_tree = new FormulaNode();
+	if (存在上标下标)
+	{
+		size_t pos_end = find_supsub_item_end(formula, pos);
+		
+		tree = searchSubTree(formula, formula_tree);
+		writeTree(m_r, formula_tree);
+
+		pos = pos_end;
+	}
+	else
+	{
+		formula_tree->data = formula;
+		writeTree(m_r, formula_tree);
+		break;
+	}
+}
+
+FormulaNode* searchSubTree(const std::string formula, FormulaNode* formula_tree)
+{
+	// 找到该上下标的范围并取出
+	size_t pos_end = find_supsub_item_end(formula, 0);
+	supsub_text = formula.substr(0, pos_end);
+	// 赋值子树根节点
+	text_vector = splitSupSub(supsub_text);	// 分解出：根节点、子节点（一个或两个）
+	formula_tree->data = text_vector[0];
+	
+	if (text_vector.size() == 1)
+	{
+		// 退出条件：仅子树根节点——仅字符
+		return formula_tree;
+	}
+
+	for (text : text_vector)
+	{
+		// 处理上下标
+		if (text是上标)
+		{
+			formula_tree->sup = searchSubTree(text, formula_tree->sup);
+		}
+		else if (text是下标)
+		{
+			formula_tree->sub = searchSubTree(text, formula_tree->sub);
+		}
+	}
+}
+
+writeSubTree(m_r, formula_tree)
+{
+	if (formula_tree->sup==NULL && formula_tree->sub==NULL)
+	{
+		// 退出条件：子树仅根节点
+		addCharacter(m_r, formula_tree->data);
+		return;
+	}
+	
+	if (formula_tree->sup != NULL && formula_tree->sub != NULL)
+	{
+		// 创建上下标结构
+		pugi::xml_node m_subsup = m_r.append_child("m:sSubSup");
+		// 写入基数字符
+		pugi::xml_node m_e = m_subsup.append_child("m:e");
+		addCharacter(m_e, formula_tree->data);
+		
+		pugi::xml_node m_sup_element = m_subsup.append_child("m:sup");
+		writeSubTree(m_sup_element, formula_tree->sup);
+		
+		pugi::xml_node m_sub_element = m_subsup.append_child("m:sub");
+		writeSubTree(m_sub_element, formula_tree->sub);
+	}
+	else if (formula_tree->sup != NULL)
+	{
+		// 创建上标结构
+		pugi::xml_node m_sup = m_r.append_child("m:sSup");
+		// 写入基数字符
+		pugi::xml_node m_e = m_sup.append_child("m:e");
+		addCharacter(m_e, formula_tree->data);
+		
+		pugi::xml_node m_sup_element = m_sup.append_child("m:sup");
+		writeSubTree(m_sup_element, formula_tree->sup);
+	}
+	else if (formula_tree->sub != NULL)
+	{
+		// 创建下标结构
+		pugi::xml_node m_sub = m_r.append_child("m:sSub");
+		// 写入基数字符
+		pugi::xml_node m_e = m_sub.append_child("m:e");
+		addCharacter(m_e, formula_tree->data);
+		
+		pugi::xml_node m_sub_element = m_sub.append_child("m:sub");
+		writeSubTree(m_sub_element, formula_tree->sub);
+	}
+}
+
+
+splitSpecialCharacter(text)
+{
+	if (text存在"\\")
+	{
+		size_t p = 0;
+		while (p < text.size())
+		{
+			std::string item;
+			size_t p_start = p;
+			// 后续是否存在转义符
+			if (text.find("\\", p) != std::string::npos)
+			{
+				p_start = text.find("\\", p) + 1;
+				item = "\\";
+			}
+			// 取出当前子字符串
+			while(p_start < text.size() && (isalpha(text[p_start]) || text[p_start]≠{或}))
+			{
+				item += text[p_start];
+				++p_start;
+			}
+			result.push_back(item);
+			p = p_start;			
+		}
+	}
+	else 
+	{	
+		// 不存在转义符直接输出
+		result.push_back(text)
+	}
+	return result;
+}
+
+
+如果识别到分数->不断提分数的项
+如果识别到括号->不断提括号的项
+
+
+
+while (pos < formula.length())
+{
+	FormulaNode* formula_tree = new FormulaNode();
+	if (存在上标下标)
+	{
+		pos = writeComplexFormula(m_r, pos, formula, formula_tree);
+	}
+	else
+	{
+		formula_tree->data = formula;
+		writeTree(m_r, formula_tree);
+		break;
+	}
+}
+
+std::unordered_map<std::string, std::string> BracketPairs = {
+	{"\\left(", "\\right)"},
+	{"\\left[", "\\right)"},
+	{"\\left{", "\\right}"},
+	{"\\left\\langel", "\\right\\rangle"},
+	{"\\begin{case}, "\\end{case}"}
+};
+
+writeComplexFormula(m_r, pos, formula, formula_tree)
+{
+	pos_end, text_vector = splitBiggestSupSub(formula, pos);
+	// 根节点是否存在left-right式括号（包括case型）及匹配性 || 分数
+	if (text_vector[0]不存在 left-right式括号（包括case型）且不匹配 & 分数)
+	{
+		// 退出条件：根节点不存在left-right式括号（包括case型）及匹配性 & 分数
+		tree = searchSubTree(formula, formula_tree);
+		writeTree(m_r, formula_tree);
+		return pos;
+	}
+	
+	// 处理前序数据
+	size_t pos, std::string formula_prior = getTextBeforePriority(text_vector[0]);
+	tree = searchSubTree(formula_prior, formula_tree);
+	writeTree(m_r, formula_tree);
+	
+	// 处理后续复杂数据
+	std::string formula_complex = text_vector[0].substr(pos, text_vector.size()-pos);
+	if (left-right式括号 vs. frac 先后对比)
+	{
+		for (auto [left, right] : BracketPairs)
+		{
+			// 遍历括号对，找到对应括号对，并取出其中内容	
+			size_t p_start = formula_complex.find(left);
+			size_t p_end = formula_complex.find(right);
+			if (p_start != std::string::npos && p_end != std::string::npos)
+			{
+				formula_complex = formula_complex.substr(p_start+left.size(), ...)
+				break;
+			}
+		}
+		// 根据匹配到的括号对创建括号节点
+		m_r->m_d->m_dPr->m_begChr<-mapping(left);	m_dPr->m_sepChr<-""; ...
+		// 数值部分
+		pugi::xml_node m_e = m_d.append_child("m:e");
+		// 初始化formula_tree
+		formula_tree = new FormulaNode();
+		pos = writeComplexFormula(m_d, 0, formula_complex, formula_tree);
+		}
+	}
+	else
+	{
+		pugi::xml_node m_f = m_r.append_child("m:f");
+		// 分子
+		p_num_end = find_supsub_item_end(formula_complex, pos);
+		formula_num = formula_complex.substr(pos, p_num_end-pos);
+		// 创建分子节点
+		pugi::xml_node m_num = m_f.append_child("m:num");
+		// 初始化formula_tree
+		formula_tree = new FormulaNode();
+		pos = writeComplexFormula(m_num, 0, formula_num, formula_tree);
+		// 分母
+		p_den_end = find_supsub_item_end(formula_complex, p_num_end);
+		formula_den = formula_complex.substr(p_num_end, p_den_end-p_num_end);
+		// 创建分子节点			
+		pugi::xml_node m_den = m_f.append_child("m:den");
+		// 初始化formula_tree
+		formula_tree = new FormulaNode();
+		pos = writeComplexFormula(m_den, 0, formula_den, formula_tree);
+	}
+	return pos;
+}
+
+
+找到这些左括号中最早出现的左括号，然后匹配对应的右括号，取子字符串
+如果子字符串中括号不平衡，则继续，否则退出
