@@ -1,6 +1,24 @@
 * 第一版：实现Tex文件到Docx文件的转换，包括文段、公式、表格、图像、参考文献等。
   * 未完成功能：表格的尺寸控制，伪代码，接口
-* 主要文件: 
+* 项目结构：
+  ```text
+  Tex2Docx/
+  ├── main.cpp                 // 测试主函数
+  ├── document_ast.h           // 抽象语法树
+  ├── parse.cpp                // tex文件解析
+  ├── parse.h
+  ├── parse_template.cpp       // tex文章格式解析
+  ├── parse_reference.cpp      // bib参考文献解析
+  ├── tex_attribute.h          // tex文本基本属性
+  ├── generator.cpp            // docx文件生成
+  ├── generator.h
+  ├── document_docx.cpp        // docx文件生成辅助
+  ├── document_docx.h
+  ├── utils_write_xml.h
+  ├── document.tex             // 测试转换的tex文件
+  ├── refs.bib                 // 测试转换的bib文件
+  └── document.docx            // 测试生成的docx文件
+* 主要文件说明: 
   * main.cpp：转换示例，将“document.tex”转换为“document.docx”，参考文献使用“refs.bib”，图像的操作目录为“figures/”
   * document_ast.h：基于tex语法结构的抽象语法树，封装文档中元素的结构化表示，包括标题、文段、公式、图像、表格等
   * parse.cpp：Tex文件解析器，基于字符串的提取，将文章结构、内容及属性解析并存储于抽象语法树
