@@ -33,7 +33,7 @@
   * tex_attribute.h：tex文件中基本元素的属性，共解析与写入配置使用，包含字号、段落、特殊符号等
 * 主要库：
   * minidocx: 生成Docx文件的基本元素，包括设置对齐、段落、字体、大小、颜色、图像、表格
-  * pdfium: 实现PDF到高清PNG的转换
+  * pdfium: 读取PDF图片文件，辅助实现图片由PDF到高清PNG的转换
 * introduction.txt：实现的具体思路与流程
 * 项目配置属性：
   * 开发平台：Visual Studio 2022
