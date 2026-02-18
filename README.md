@@ -17,6 +17,7 @@
   ├── utils_write_xml.h
   ├── document.tex             // 测试转换的tex文件
   ├── refs.bib                 // 测试转换的bib文件
+  ├── figures/                 // 转换过程中使用&生成的图片文件
   └── document.docx            // 测试生成的docx文件
 * 主要文件说明: 
   * main.cpp：转换示例，将“document.tex”转换为“document.docx”，参考文献使用“refs.bib”，图像的操作目录为“figures/”
