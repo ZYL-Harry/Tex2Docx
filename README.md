@@ -5,20 +5,20 @@
   Tex2Docx/
   ├── src/    // 核心源码目录
   │   ├── cpp/    // C++源码子目录
-  │   ├── convert2exe.cpp          // 生成exe可执行文件
-  │   ├── main.cpp                 // 测试主函数
-  │   ├── document_ast.h           // 抽象语法树
-  │   ├── parse.cpp                // tex文件解析
-  │   ├── parse.h
-  │   ├── parse_template.cpp       // tex文章格式解析
-  │   ├── parse_reference.cpp      // bib参考文献解析
-  │   ├── tex_attribute.h          // tex文本基本属性
-  │   ├── generator.cpp            // docx文件生成
-  │   ├── generator.h
-  │   ├── document_docx.cpp        // docx文件生成辅助
-  │   ├── document_docx.h
-  │   ├── utils_write_xml.h
-  │   └── 其他依赖
+  │   │   ├── convert2exe.cpp          // 生成exe可执行文件
+  │   │   ├── main.cpp                 // 测试主函数
+  │   │   ├── document_ast.h           // 抽象语法树
+  │   │   ├── parse.cpp                // tex文件解析
+  │   │   ├── parse.h
+  │   │   ├── parse_template.cpp       // tex文章格式解析
+  │   │   ├── parse_reference.cpp      // bib参考文献解析
+  │   │   ├── tex_attribute.h          // tex文本基本属性
+  │   │   ├── generator.cpp            // docx文件生成
+  │   │   ├── generator.h
+  │   │   ├── document_docx.cpp        // docx文件生成辅助
+  │   │   ├── document_docx.h
+  │   │   ├── utils_write_xml.h
+  │   │   └── 其他依赖
   ├── bin/    // 可执行文件目录
   │   ├── main.py                  // Python Web后端代码
   │   ├── Project1.exe             // VS2022编译后的C++可执行文件
