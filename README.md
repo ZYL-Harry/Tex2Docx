@@ -33,7 +33,7 @@
   │   │   └── temp_xxx/    // 自动生成的临时目录（含上传文件和解压后的图片）
   │   └── outputs/    // 转换生成的docx文件目录
 * 主要源文件说明: 
-  * main.cpp：转换示例，将“document.tex”转换为“document.docx”，参考文献使用“refs.bib”，图像的操作目录为“figures/”
+  * main.cpp：文件转换测试主函数，采用默认的测试文件
   * document_ast.h：基于tex语法结构的抽象语法树，封装文档中元素的结构化表示，包括标题、文段、公式、图像、表格等
   * parse.cpp：Tex文件解析器，基于字符串的提取，将文章结构、内容及属性解析并存储于抽象语法树
       * 主要头文件：parse.h
