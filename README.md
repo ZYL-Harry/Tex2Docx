@@ -33,7 +33,7 @@
   │   │   └── temp_xxx/    // 自动生成的临时目录（含上传文件和解压后的图片）
   │   └── outputs/    // 转换生成的docx文件目录
 * 主要源文件说明: 
-  * main.cpp：文件转换测试主函数，采用默认的测试文件
+  * main.cpp：文件转换的测试主函数，采用默认的测试文件
   * document_ast.h：基于tex语法结构的抽象语法树，封装文档中元素的结构化表示，包括标题、文段、公式、图像、表格等
   * parse.cpp：Tex文件解析器，基于字符串的提取，将文章结构、内容及属性解析并存储于抽象语法树
       * 主要头文件：parse.h
@@ -44,6 +44,7 @@
   * document_docx.cpp：基于minidocx进行Docx文件相关功能的拓展，包括公式、图像、表格等
       * 主要头文件：document_docx.h, utils_write_xml.h
   * tex_attribute.h：tex文件中基本元素的属性，共解析与写入配置使用，包含字号、段落、特殊符号等
+  * convert2exe.cpp：用于编译生成可执行文件
 * 主要库：
   * minidocx: 生成Docx文件的基本元素，包括设置对齐、段落、字体、大小、颜色、图像、表格
   * pdfium: 读取PDF图片文件，辅助实现图片由PDF到高清PNG的转换
