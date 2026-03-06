@@ -25,12 +25,12 @@
   │   └── pdfium.dll
   ├── data/    // 数据目录
   │   ├── default/    // 默认资源子目录
-  │   │   ├── document.tex        # 默认tex文件
-  │   │   ├── refs.bib        # 默认参考文献bib文件
-  │   │   ├── article.cls     # 默认格式cls文件
-  │   │   └── figures.zip        # 默认图片压缩包
+  │   │   ├── document.tex    // 默认tex文件
+  │   │   ├── refs.bib        // 默认参考文献bib文件
+  │   │   ├── article.cls     // 默认格式cls文件
+  │   │   └── figures.zip     // 默认图片压缩包
   │   ├── uploads/    // 上传文件临时存储目录
-  │   │   └── temp_xxx/  # 自动生成的临时目录（含上传文件和解压后的图片）
+  │   │   └── temp_xxx/    // 自动生成的临时目录（含上传文件和解压后的图片）
   │   └── outputs/    // 转换生成的docx文件目录
 * 主要源文件说明: 
   * main.cpp：转换示例，将“document.tex”转换为“document.docx”，参考文献使用“refs.bib”，图像的操作目录为“figures/”
