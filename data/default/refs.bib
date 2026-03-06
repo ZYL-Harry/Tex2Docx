@@ -1,0 +1,708 @@
+@article{RN4,
+	author = {Antoni, J.},
+	title = {Cyclostationarity by examples},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {23},
+	number = {4},
+	pages = {987-1036},
+	abstract = {This paper is a tutorial on cyclostationarity oriented towards mechanical applications. The approach is voluntarily intuitive and accessible to neophytes. It thrives on 20 examples devoted to illustrating key concepts on actual mechanical signals and demonstrating how cyclostationarity can be taken advantage of in machine diagnostics, identification of mechanical systems and separation of mechanical sources. (C) 2008 Elsevier Ltd. All rights reserved.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2008.10.010},
+	year = {2009},
+	type = {Journal Article}
+}
+
+@article{RN14,
+	author = {Chen, Xiwen and Qiu, Peijie and Zhu, Wenhui and Li, Huayu and Wang, Hao and Sotiras, Aristeidis and Wang, Yalin and Razi, Abolfazl},
+	title = {TimeMIL: Advancing Multivariate Time Series Classification via a Time-aware Multiple Instance Learning},
+	journal = {ArXiv},
+	volume = {abs/2405.03140},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN22,
+	author = {Chen, Zhuyun and Li, Weihua},
+	title = {Multisensor Feature Fusion for Bearing Fault Diagnosis Using Sparse Autoencoder and Deep Belief Network},
+	journal = {Ieee Transactions on Instrumentation and Measurement},
+	volume = {66},
+	number = {7},
+	pages = {1693-1702},
+	abstract = {To assess health conditions of rotating machinery efficiently, multiple accelerometers are mounted on different locations to acquire a variety of possible faults signals. The statistical features are extracted from these signals to identify the running status of a machine. However, the acquired vibration signals are different due to sensor's arrangement and environmental interference, which may lead to different diagnostic results. In order to improve the fault diagnosis reliability, a new multisensor data fusion technique is proposed. First, time-domain and frequency-domain features are extracted from the different sensor signals, and then these features are input into multiple two-layer sparse autoencoder (SAE) neural networks for feature fusion. Finally, fused feature vectors can be regarded as the machine health indicators, and be used to train deep belief network (DBN) for further classification. To verify the effectiveness of the proposed SAE-DBN scheme, the bearing fault experiments were conducted on a bearing test platform, and the vibration data sets under different running speeds were collected for algorithm validation. For comparison, different feature fusion methods were also applied to multisensor fusion in the experiments. Experimental results demonstrated that the proposed approach can effectively identify the machine running conditions and significantly outperform other fusion methods.},
+	ISSN = {0018-9456},
+	DOI = {10.1109/tim.2017.2669947},
+	year = {2017},
+	type = {Journal Article}
+}
+
+@article{RN13,
+	author = {Cheng, Liu and Kong, Xiangwei and Zhang, Yongchao and Zhu, Yunpeng and Qi, Haochen and Zhang, Jiqiang},
+	title = {A novel causal feature learning-based domain generalization framework for bearing fault diagnosis with a mixture of data from multiple working conditions and machines},
+	journal = {Advanced Engineering Informatics},
+	volume = {62},
+	abstract = {Data distribution shift usually deteriorates the performance of traditional supervised learning -based fault diagnosis models. Such issue can be well addressed by domain generalization fault diagnosis methods even if the test data are unavailable in training stage. However, most of these methods are designed and validated only for a single device, and also require the domain labels being provided, which hampers their further application. Therefore, this paper focuses a more realistic scenario, where the source training set is a mixture of data from multiple operation conditions and devices with domain information unavailable. First, a causal analysis is made for the task of domain generalization fault diagnosis, and a structural causal model (SCM) that describes the data generation process is constructed based on the relationships among different variables. A new learning rule for domain generalization, named object -conditional domain invariant (Obj-DI) rule, is also elicited. Then, to achieve domain generalization fault diagnosis, a three -stage based method named LOODG is proposed. Potential domains are mined and samples are given domain labels in latent domain discovery stage. Samples belonging to same object but different domains are explored in object discovery stage. In Obj-DI based causal feature learning stage, generalizable causal features are learned to finally obtain a generalized model. Experiments are conducted on tasks designed from three datasets, and the results demonstrate the superiority of the proposed method.},
+	ISSN = {1474-0346},
+	DOI = {10.1016/j.aei.2024.102622},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN36,
+	author = {Ding, Yifei and Jia, Minping and Cao, Yudong and Ding, Peng and Zhao, Xiaoli and Lee, Chi-Guhn},
+	title = {Domain generalization via adversarial out-domain augmentation for remaining useful life prediction of bearings under unseen conditions},
+	journal = {Knowledge-Based Systems},
+	volume = {261},
+	abstract = {Since classical deep learning (DL) techniques are hungry for massive data and suffer from domain shift, domain adaptation (DA) methods are broadly adopted in prognostics and health management (PHM) to align source and target domains. However, DA relies on target datasets collected in advance, which are not always available in practice. In this paper, a domain generalization (DG) approach, which learns from multiple source domains and generalizes well to unseen domains, is introduced for remaining useful life (RUL) prediction of bearings under unseen operating conditions. Specifically, we propose an adversarial out-domain augmentation (AOA) framework to generate pseudo-domains, thereby increasing the diversity of available samples. Hence, a generator is trained in an adversarial manner to generate augmented pseudo-domains by maximizing the domain discrepancy of the latent representations. In addition, we add manifold and semantic regularization to its objective function to ensure the consistency of the pseudo-domains. Trained with these available domains, a task predictor can improve the generalization in inaccessible target domain. Based on this, we provide a specific implementation of AOA-based RUL prediction for DG and validate its effectiveness and superiority using experimental datasets.(c) 2022 Elsevier B.V. All rights reserved.},
+	ISSN = {0950-7051},
+	DOI = {10.1016/j.knosys.2022.110199},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN41,
+	author = {Gao, Yu and Qi, Jin and Sun, Ying and Hu, Xiaoxuan and Dong, Zhenjiang and Sun, Yanfei},
+	title = {Industrial process fault diagnosis based on feature enhanced meta-learning toward domain scenarios},
+	journal = {Knowledge-Based Systems},
+	volume = {289},
+	abstract = {With the rise of the Internet of Things, computing science, and artificial intelligence, data-driven fault diagnosis methods for industrial processes have attracted considerable attention. However, these methods typically assume that the distribution of the test data (target domains) is similar to that of the training data (source domains), making it difficult to deploy them in actual scenarios because the distribution of the collected data varies with operating conditions. Faced with this challenge, a novel fault diagnosis method based on feature enhanced meta-learning (FEML) is proposed to learn domain generalization knowledge effectively. It aims to jointly extract domain-invariant information that can be transferred across domains, and domain-specific information related to classification labels. First, feature extractors based on gated recurrent units (GRUs) are designed to capture domain-invariant and domain-specific representations with time-sequence characteristics from industrial process data. Second, a meta-learning strategy is introduced to enhance the domain-specific representation, thus improving the generalization ability of the model without accessing the target domains. Finally, the Tennessee Eastman process (TEP), Fed-Batch Fermentation Penicillin process (FBFP), and ThreePhase Flow process (TPFP) are used to verify the effectiveness of FEML. The results illustrate that the FEML is robust and outperforms other related methods. The diagnostic accuracies for TEP, FBFP, and TPFP are 87.11%, 95.94%, and 83.07%, respectively.},
+	ISSN = {0950-7051},
+	DOI = {10.1016/j.knosys.2024.111506},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN24,
+	author = {Guo, Chang and Shang, Zuogang and Ren, Jiaxin and Zhao, Zhibin and Ding, Baoqing and Wang, Shibin and Chen, Xuefeng},
+	title = {CIS2N: Causal independence and sparse shift network for rotating machinery fault diagnosis in unseen domains},
+	journal = {Reliability Engineering and System Safety},
+	volume = {251},
+	abstract = {Intelligent fault diagnosis (IFD) based on deep learning (DL) has demonstrated its powerful performance to promote the reliability and safe operation of rotating machinery. In industrial applications, working condition changes frequently, leading to models' performance degeneration due to out-of-distribution (OOD) samples, such as vibration signals with unseen rotating speeds, loads, etc. To address this issue, domain generalization fault diagnosis (DGFD) has attracted increasing attention. However, mainstream DGFD methods are implemented from statical dependence, which fail to excavate intrinsic causal mechanisms and have limited performance and reliability. From a causal view, the causal independence and sparse shift network (CIS2N) is proposed to diagnose via causal mechanisms. Specially, a structural causal model (SCM) representing causal relations of features in IFD is given. Based on the SCM, it is derived that features are jointly independent and feature deviation between intervened sample pairs is sparse. The dependence among features is measured via the covariance matrices constructed by high-level features mapped by random Fourier features (RFF). Meanwhile the L1distance between pairs of features with the same causal features (intervened pair) is calculated and optimized to realize shift sparsity. The effectiveness of the proposed CIS2N on DGFD is demonstrated on two real helical gearbox datasets.},
+	ISSN = {0951-8320},
+	DOI = {10.1016/j.ress.2024.110381},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN50,
+	author = {Guo, Chaochao and Sun, Youchao and Yu, Rourou and Ren, Xinxin},
+	title = {Deep Causal Disentanglement Network With Domain Generalization for Cross-Machine Bearing Fault Diagnosis},
+	journal = {Ieee Transactions on Instrumentation and Measurement},
+	volume = {74},
+	abstract = {Domain generalization-based fault diagnosis (DGFDs) has gained considerable attention in bearing fault diagnosis due to its ability to extract feature-invariant information from diverse source domains, without requiring direct access to target domain data. However, many existing DGFD approaches primarily rely on statistical models to capture the relationship between time-series data and labels. This often leads to the learning of entangled features, as these models lack prior knowledge to differentiate between task-relevant and task-irrelevant information. To address this limitation, this article introduces the deep causal disentanglement network (DCDN), a novel approach tailored for cross-machine bearing fault diagnosis. In this framework, fault data collected from multiple source domains is decomposed into causal factors related to fault representation and non-causal factors associated with domain-specific information, using a structural causal model (SCM). This process effectively reconstructs the data generation pathway. By optimizing causal aggregation loss and maximizing information entropy loss, DCDN can distinguish between causal and non-causal features from both direct and indirect perspectives. Furthermore, a contrastive estimation loss is minimized to ensure that the extracted causal features retain most of the essential information from the original dataset. Additionally, a redundancy reduction loss is employed to minimize correlations among the dimensions of the causal vector, further reducing the entanglement between causal and non-causal factors. The effectiveness and superiority of the proposed model are demonstrated across five cross-machine bearing fault datasets. Experimental results show that, compared to other state-of-the-art (SOAT) methods, DCDN achieves superior performance in both estimation accuracy and robustness.},
+	ISSN = {0018-9456},
+	DOI = {10.1109/tim.2025.3545703},
+	year = {2025},
+	type = {Journal Article}
+}
+
+@article{RN25,
+	author = {Guo, Qun and Li, Gang and Lin, Jun},
+	title = {A Domain Generalization Network Exploiting Causal Representations and Non-Causal Representations for Three-Phase Converter Fault Diagnosis},
+	journal = {Ieee Transactions on Instrumentation and Measurement},
+	volume = {73},
+	abstract = {Deep learning (DL) methods have attracted increasing attention and have shown competitive performance in power converter fault diagnosis. However, models trained by existing fault data cannot function well for converter systems with unknown parameters in unknown environments. In addition, obtaining the target data distribution in advance limits the application of transfer learning (TL) methods based on domain adaptation (DA) in real-time fault diagnosis. To address this challenge, this article proposes a domain generalization network exploiting causal representations and non-causal representations (DGNECN) for power converter fault diagnosis under unknown working conditions. First, structural causal models (SCMs) are introduced in converter fault diagnosis, and invariant causal representations with fault information are extracted by the causal factorization module based on a causal matching strategy. Subsequently, the domain-specific non-causal representations are captured by the domain classifier. Finally, the two representations are further purified by disentanglement within a unified framework while optimizing non-causal representations through meta-learning to achieve stable generalization to unknown working conditions. Extensive comparison and ablation experiments confirm the effectiveness and superiority of DGNECN in the domain generalization (DG) setting. DGNECN achieved an average accuracy of 97.38% even in unknown noise and frequency.},
+	ISSN = {0018-9456},
+	DOI = {10.1109/tim.2024.3369153},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN18,
+	author = {Han, Yizeng and Huang, Gao and Song, Shiji and Yang, Le and Wang, Honghui and Wang, Yulin},
+	title = {Dynamic Neural Networks: A Survey},
+	journal = {Ieee Transactions on Pattern Analysis and Machine Intelligence},
+	volume = {44},
+	number = {11},
+	pages = {7436-7456},
+	abstract = {Dynamic neural network is an emerging research topic in deep learning. Compared to static models which have fixed computational graphs and parameters at the inference stage, dynamic networks can adapt their structures or parameters to different inputs, leading to notable advantages in terms of accuracy, computational efficiency, adaptiveness, etc. In this survey, we comprehensively review this rapidly developing area by dividing dynamic networks into three main categories: 1) sample-wise dynamic models that process each sample with data-dependent architectures or parameters; 2) spatial-wise dynamic networks that conduct adaptive computation with respect to different spatial locations of image data; and 3) temporal-wise dynamic models that perform adaptive inference along the temporal dimension for sequential data such as videos and texts. The important research problems of dynamic networks, e.g., architecture design, decision making scheme, optimization technique and applications, are reviewed systematically. Finally, we discuss the open problems in this field together with interesting future research directions.},
+	ISSN = {0162-8828},
+	DOI = {10.1109/tpami.2021.3117837},
+	year = {2022},
+	type = {Journal Article}
+}
+
+@inproceedings{RN47,
+	author = {Hou, Lei and Yi, Haiming and Jin, Yuhong and Gui, Min and Sui, Lianzheng and Zhang, Jianwei and Chen, Yu-shu},
+	title = {An Inter-Shaft Bearing Fault Diagnosis Dataset from an Aero-Engine System},
+	type = {Conference Proceedings}
+}
+
+@misc{RN45,
+	author = {Ismail Fawaz, Hassan and Lucas, Benjamin and Forestier, Germain and Pelletier, Charlotte and Schmidt, Daniel F. and Weber, Jonathan and Webb, Geoffrey I. and Idoumghar, Lhassane and Muller, Pierre-Alain and Petitjean, François},
+	title = {InceptionTime: Finding AlexNet for Time Series Classification},
+	pages = {arXiv:1909.04939},
+	month = {September 01, 2019},
+	abstract = {This paper brings deep learning at the forefront of research into Time Series Classification (TSC). TSC is the area of machine learning tasked with the categorization (or labelling) of time series. The last few decades of work in this area have led to significant progress in the accuracy of classifiers, with the state of the art now represented by the HIVE-COTE algorithm. While extremely accurate, HIVE-COTE cannot be applied to many real-world datasets because of its high training time complexity in O(N2 * T4) for a dataset with N time series of length T. For example, it takes HIVE-COTE more than 8 days to learn from a small dataset with N = 1500 time series of short length T = 46. Meanwhile deep learning has received enormous attention because of its high accuracy and scalability. Recent approaches to deep learning for TSC have been scalable, but less accurate than HIVE-COTE. We introduce InceptionTime - an ensemble of deep Convolutional Neural Network (CNN) models, inspired by the Inception-v4 architecture. Our experiments show that InceptionTime is on par with HIVE-COTE in terms of accuracy while being much more scalable: not only can it learn from 1,500 time series in one hour but it can also learn from 8M time series in 13 hours, a quantity of data that is fully out of reach of HIVE-COTE.},
+	keywords = {Computer Science - Machine Learning
+	Statistics - Machine Learning},
+	DOI = {10.48550/arXiv.1909.04939},
+	year = {2019},
+	type = {Electronic Article}
+}
+
+@article{RN11,
+	author = {Jia, Linshan and Chow, Tommy W. S. and Yuan, Yixuan},
+	title = {Causal Disentanglement Domain Generalization for time-series signal fault diagnosis},
+	journal = {Neural Networks},
+	volume = {172},
+	abstract = {Domain generalization -based fault diagnosis (DGFD) presents significant prospects for recognizing faults without the accessibility of the target domain. Previous DGFD methods have achieved significant progress; however, there are some limitations. First, most DGFG methods statistically model the dependence between time -series data and labels, and they are superficial descriptions to the actual data -generating process. Second, most of the existing DGFD methods are only verified on vibrational time -series datasets, which is insufficient to show the potential of domain generalization in the fault diagnosis area. In response to the above issues, this paper first proposes a DGFD method named Causal Disentanglement Domain Generalization (CDDG), which can reestablish the data -generating process by disentangling time -series data into the causal factors (fault -related representation) and no -casual factors (domain -related representation) with a structural causal model. Specifically, in CDDG, causal aggregation loss is designed to separate the unobservable causal and non -causal factors. Meanwhile, the reconstruction loss is proposed to ensure the information completeness of the disentangled factors. We also introduce a redundancy reduction loss to learn efficient features. The proposed CDDG is verified on five cross -machine vibrational fault diagnosis cases and three cross -environment acoustical anomaly detection cases by comparing it with eight state-of-the-art (SOTA) DGFD methods. We publicize the open -source time -series DGFD Benchmark containing CDDG and the eight SOTA methods. The code repository will be available at https://github.com/ShaneSpace/DGFDBenchmark.},
+	ISSN = {0893-6080},
+	DOI = {10.1016/j.neunet.2024.106099},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN29,
+	author = {Jia, Sixiang and Li, Yongbo and Wang, Xinyue and Sun, Dingyi and Deng, Zichen},
+	title = {Deep causal factorization network: A novel domain generalization method for cross-machine bearing fault diagnosis},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {192},
+	abstract = {Domain generalization (DG) has attracted much attention in bearing fault diagnosis since it can generalize the prior diagnostic knowledge to invisible working conditions. However, previous DG-based approaches are easy to introduce personalized bias due to the specificity of the me-chanical equipment, which worsens the generalization performance. To solve this problem, a deep causal factorization network (DCFN) is proposed for cross-machine bearing diagnosis without the involvement of target domain data in training. Specifically, by leveraging the structural causal model of bearing fault signal generation, DCFN defines the cross-machine generalized fault representations as causal factors and the domain-related representations as non-causal factors. Afterwards, taking advantage of the causal properties that can be preserved in data distribution shifts, causal task factorization and feature factorization modules are designed to reconstruct causal mechanisms. To separate the two types of underlying factors, causal task factorization aims to maximize the predicted output entropy of the domain classifier using learned causal factors as input, and simultaneously maximizes the entropy of the fault classifier using learned non-causal factors as input. Moreover, causal feature factorization highlights that the ideal causal factors desire cross-domain consistency and inter-dimensional independence, thereby learning causal factors with stable and sufficient distinguishing features. Finally, under broad bearing fault datasets including public, laboratory and simulation datasets, the effective-ness of the proposed DCFN is verified by comparing with various state-of-the-arts diagnosis methods.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2023.110228},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@inproceedings{RN17,
+	author = {Kimotho, James Kuria and Sextro, Walter},
+	title = {An approach for feature extraction and selection from non-trending data for machinery prognosis},
+	booktitle = {Proceedings of the Second European Conference of the Prognostics and Health Management Society 2014},
+	type = {Conference Proceedings}
+}
+
+@article{RN8,
+	author = {Lessmeier, Christian and Kimotho, James Kuria and Zimmer, Detmar and Sextro, Walter},
+	title = {Condition Monitoring of Bearing Damage in Electromechanical Drive Systems by Using Motor Current Signals of Electric Motors: A Benchmark Data Set for Data-Driven Classification},
+	journal = {PHM Society European Conference},
+	year = {2016},
+	type = {Journal Article}
+}
+
+@misc{RN7,
+	author = {Li, Bo and Shen, Yifei and Yang, Jingkang and Wang, Yezhen and Ren, Jiawei and Che, Tong and Zhang, Jun and Liu, Ziwei},
+	title = {Sparse Mixture-of-Experts are Domain Generalizable Learners},
+	pages = {arXiv:2206.04046},
+	month = {June 01, 2022},
+	abstract = {Human visual perception can easily generalize to out-of-distributed visual data, which is far beyond the capability of modern machine learning models. Domain generalization (DG) aims to close this gap, with existing DG methods mainly focusing on the loss function design. In this paper, we propose to explore an orthogonal direction, i.e., the design of the backbone architecture. It is motivated by an empirical finding that transformer-based models trained with empirical risk minimization (ERM) outperform CNN-based models employing state-of-the-art (SOTA) DG algorithms on multiple DG datasets. We develop a formal framework to characterize a network's robustness to distribution shifts by studying its architecture's alignment with the correlations in the dataset. This analysis guides us to propose a novel DG model built upon vision transformers, namely Generalizable Mixture-of-Experts (GMoE). Extensive experiments on DomainBed demonstrate that GMoE trained with ERM outperforms SOTA DG baselines by a large margin. Moreover, GMoE is complementary to existing DG methods and its performance is substantially improved when trained with DG algorithms.},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition
+	Computer
+	Science - Artificial Intelligence
+	Computer Science - Machine Learning},
+	DOI = {10.48550/arXiv.2206.04046},
+	year = {2022},
+	type = {Electronic Article}
+}
+
+@article{RN30,
+	author = {Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Haijun and Li, Chen},
+	title = {Causal Consistency Network: A Collaborative Multimachine Generalization Method for Bearing Fault Diagnosis},
+	journal = {Ieee Transactions on Industrial Informatics},
+	volume = {19},
+	number = {4},
+	pages = {5915-5924},
+	abstract = {Due to the lack of faulty data on the target machine, intelligent networks often need to learn fault knowledge from other relevant machines. Unfortunately, data from different machines introduce individualized deviations, which may lead to overfitting of network learning and reduce its generalization ability. To address the problem, this article proposes a collaborative multimachine generalization method-causal consistency network (CCN), which mines the invariant causal information in individualized machines through a collaborative way to achieve knowledge generalization. In CCN, instead of emphasizing the domain invariance of features, causal consistency loss depicting the consistency of fault causality representations in deep latent variables is proposed. Moreover, to transform the individualized data of different machines into consistent representations, a collaborative training loss is proposed to describe the underlying invariant causal mechanism of the fault features. The generalization results among 6 machines containing 43 individual bearings and 20 operating conditions demonstrate the superiority of CCN.},
+	ISSN = {1551-3203},
+	DOI = {10.1109/tii.2022.3174711},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN31,
+	author = {Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Haijun and Wan, Zhiguo},
+	title = {Causal Disentanglement: A Generalized Bearing Fault Diagnostic Framework in Continuous Degradation Mode},
+	journal = {Ieee Transactions on Neural Networks and Learning Systems},
+	volume = {34},
+	number = {9},
+	pages = {6250-6262},
+	abstract = {In recent years, the identification of out-of-distribution faults has become a hot topic in the field of intelligent diagnosis. Existing researches usually adopt domain adaptation methods to complete the generalization of diagnostic knowledge with the aid of target domain data, but the acquisition of fault samples in real industries is extremely time-consuming and costly. Moreover, most researches focus on samples with fixed fault levels, ignoring the fact that system degradation is a continuous process. In response to the above intractable problems, this article proposed a causal disentanglement network (CDN) to realize cross-machine knowledge generalization and continuous degradation mode diagnosis. In CDN, multitask instance normalization and batch normalization structure was proposed to learn task-specific knowledge and enhance the informativeness of the extracted features. On this basis, a causal disentanglement loss was proposed, which minimized the mutual information of features between subtask structures and captured the causal invariant fault information for better generalization. The experimental results proved the superiority and generalization ability of CDN, and the visualization results proved the performance of CDN in causality mining.},
+	ISSN = {2162-237X},
+	DOI = {10.1109/tnnls.2021.3135036},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN9,
+	author = {Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Zhijie},
+	title = {Whitening-Net: A Generalized Network to Diagnose the Faults Among Different Machines and Conditions},
+	journal = {Ieee Transactions on Neural Networks and Learning Systems},
+	volume = {33},
+	number = {10},
+	pages = {5845-5858},
+	abstract = {Intelligent bearing diagnostic methods are developing rapidly, but they are difficult to implement due to the lack of real industrial data. A feasible way to deal with this problem is to train a network through laboratory data to mine the causality of bearing faults. This means that the constructed network can handle domain deviations caused by the change of machines, working conditions, noise, and so on which is, however, not a simple task. In response to this problem, a new domain generalization framework--Whitening-Net--was proposed in this article. This framework first defined the homologous compound domain signal as the data basis. Subsequently, the causal loss was proposed to impose regularization constraints on the network, which enhances the network's ability to mine causality. To avoid domain-specific information from interfering with causal mining, a whitening structure was proposed to whiten the domain, prompting the network to pay more attention to the causality of the signal rather than the domain noise. The results of diagnosis and interpretation proved the ability of Whitening-Net in mining causal mechanisms, which shows that the proposed network can generalize to different machines, even if the tested working conditions and bearing types are completely different from the training domains.},
+	ISSN = {2162-237X},
+	DOI = {10.1109/tnnls.2021.3071564},
+	year = {2022},
+	type = {Journal Article}
+}
+
+@article{RN34,
+	author = {Li, Qi and Chen, Liang and Kong, Lin and Wang, Dong and Xia, Min and Shen, Changqing},
+	title = {Cross-domain augmentation diagnosis: An adversarial domain-augmented generalization method for fault diagnosis under unseen working conditions},
+	journal = {Reliability Engineering and System Safety},
+	volume = {234},
+	abstract = {Intelligent fault diagnosis based on domain adaptation has recently been extensively researched to promote reliability of safety-critical assets under different working conditions. However, target data may be inaccessible in the model training phase, resulting in the degradation or failure of the diagnosis model. Therefore, this paper introduces a new idea called cross-domain augmentation (CDA) to achieve diagnosis under unseen working conditions, which are frequently occurred in industrial scenarios. To realize this idea, an adversarial domain -augmented generalization (ADAG) method is proposed with domain augmentation via convex combination of data and feature-label pairs. Through adversarial training on multi-source domains and the augmented domain, ADAG enables learning generalized and augmented features, which are proximal representation in the unseen domain, facilitating the generalization ability of the model. Moreover, feature extractor and domain classifier are optimized as adversaries in model training to obtain domain-invariant features, while the fault classifier is trained to identify the features. Extensive experiment studies indicate that ADAG can successfully solve the cross -domain diagnosis problem under unseen working conditions. For SDUST case study, ADAG promotes the model accuracy by 1.44%; while for a more challenging Ottawa case study, it promotes the model accuracy by 5.34%. Moreover, the domain discrepancy is reduced by 4.6%.},
+	ISSN = {0951-8320},
+	DOI = {10.1016/j.ress.2023.109171},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN2,
+	author = {Liu, Yajing and Zhou, Shijun and Liu, Xiyao and Hao, Chunhui and Fan, Baojie and Tian, Jiandong},
+	title = {Unbiased Faster R-CNN for Single-source Domain Generalized Object Detection},
+	journal = {2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+	pages = {28838-28847},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN5,
+	author = {Ma, Hongbo and Wei, Jiacheng and Zhang, Guowei and Kong, Xianguang and Du, Jingli},
+	title = {Causality-inspired multi-source domain generalization method for intelligent fault diagnosis under unknown operating conditions},
+	journal = {Reliability Engineering and System Safety},
+	volume = {252},
+	abstract = {Currently, fault diagnosis methods based on domain generalization have received widespread attention due to their advantages of not requiring target domain data. Therefore, in this paper, A multi-source domain generalization fault diagnosis method is proposed, consisting of feature diversity activation and non-causal feature suppression from a causal perspective. In the first part, a 3D-Dynamic convolution-based residual network is designed to adaptively learn task related features from different source domains, encouraging the model to focus more on causal feature learning. Furthermore, based on the maximum entropy idea, channel attention diversification is proposed to activate more potential causal features. In the second part, a feature suppression method based on domain discriminator guidance is proposed to explicitly discard non-causal features, specifically, the domain discriminator progressively locates and distinguishes between causal and non-causal features at the layer and channel level and creates binary mask matrices to suppress non-causal related features. Experiments are conducted on the PU and SDUST bearing datasets, and the proposed method can productively solve the crossdomain diagnosis problem under unknown operating conditions.},
+	ISSN = {0951-8320},
+	DOI = {10.1016/j.ress.2024.110439},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN38,
+	author = {Pang, Bin and Liu, Qiuhai and Xu, Zhenli and Sun, Zhenduo and Hao, Ziyang and Song, Ziqi},
+	title = {Fault vibration model driven fault-aware domain generalization framework for bearing fault diagnosis},
+	journal = {Advanced Engineering Informatics},
+	volume = {62},
+	abstract = {Deep learning methods can learn effective representations from the data, simplifying the fault diagnosis process and improving accuracy. However, the lack of data presents a significant challenge to effectively implementing fault diagnosis driven by deep learning. Simulation models can generate rich source domain data, which can be combined with domain adaptation methods to realize fault diagnosis tasks under sample scarcity. Nevertheless, there are some problems with existing simulation-driven fault diagnosis frameworks: (1) The choice of parameters for simulation models is usually empirical, which can lead to domain-specific components differences between the simulation data and the actual data. (2) It is difficult for the simulation models to generate the background noise of the real equipment, which will cause fault information to be covered, severely limiting the robustness of the fault diagnosis network. (3) Studies based on domain adaptation methods require a certain amount of target domain data for training, which is difficult to meet in real industrial production. To address these issues, this paper proposes a fault-aware domain generalization bearing fault diagnosis framework driven by fault vibration model, an analytical simulation model. Firstly, a spectral background estimation algorithm based on adaptive clutter separation (ACS) and maximum spectral envelope (MSE), termed ACS-MSE, is designed to estimate the potential resonance frequencies in the real system, guiding the parameters setting of the fault diagnosis vibration model and ensuring consistency between the simulated data and the actual data in the label space. Secondly, the normal actual signal is combined with the fault simulation signal to create a mixed signal that considers real background noise, and a fault-aware autoencoder is developed to extract the fault-related impact components covered by the background noise. Finally, a multi resonance frequencies domain generalization fault diagnosis network based on contrastive learning is designed to extract generalized fault features crossing different resonance frequencies and realize diagnosis tasks without real fault data. Experimental results on an open dataset and a custom dataset showed that the proposed method achieves higher accuracy compared to some advanced domain generalization and even domain adaptation methods. Ablation studies verify the importance and irreplaceability of the individual components of the proposed method.},
+	ISSN = {1474-0346},
+	DOI = {10.1016/j.aei.2024.102620},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN21,
+	author = {Shao, Haidong and Jiang, Hongkai and Zhao, Huiwei and Wang, Fuan},
+	title = {A novel deep autoencoder feature learning method for rotating machinery fault diagnosis},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {95},
+	pages = {187-204},
+	abstract = {The operation conditions of the rotating machinery are always complex and variable, which makes it difficult to automatically and effectively capture the useful fault features from the measured vibration signals, and it is a great challenge for rotating machinery fault diagnosis. In this paper, a novel deep autoencoder feature learning method is developed to diagnose rotating machinery fault. Firstly, the maximum correntropy is adopted to design the new deep autoencoder loss function for the enhancement of feature learning from the measured vibration signals. Secondly, artificial fish swarm algorithm is used to optimize the key parameters of the deep autoencoder to adapt to the signal features. The proposed method is applied to the fault diagnosis of gearbox and electrical locomotive roller bearing. The results confirm that the proposed method is more effective and robust than other methods. (C) 2017 Elsevier Ltd. All rights reserved.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2017.03.034},
+	year = {2017},
+	type = {Journal Article}
+}
+
+@article{RN35,
+	author = {Shi, Yaowei and Deng, Aidong and Deng, Minqiang and Xu, Meng and Liu, Yang and Ding, Xue and Bian, Wenbin},
+	title = {Domain augmentation generalization network for real-time fault diagnosis under unseen working conditions},
+	journal = {Reliability Engineering and System Safety},
+	volume = {235},
+	abstract = {Recent years have witnessed the successful development of domain adaptation methods to tackle cross-domain fault diagnosis problems. However, these methods require the target domain with a prior data distribution. It limits their application in real-time diagnosis scenarios, where unseen working conditions are often encountered. In this case, the domain adaptation approach is not applicable because the target data are usually unavailable in advance. With this in mind, this paper proposes a domain generalization-based method for intelligent fault diagnosis under unseen working conditions. The core idea is to explore diverse domain-invariant representations while strengthening the feature space's discriminative structure, making the model sufficiently robust to out-ofdistribution data and thus generalize well to unseen domains. Specifically, multisource augmentation is developed and combined with adversarial training to boost feature diversity and learn correlations among multiple domains, thereby enhancing the robustness and generalization of feature representations. The sample adaptive screening and weighting strategy is further deployed to dynamically optimize data augmentation and network training to obtain a more discriminative decision boundary. Experimental results of extensive diagnosis tasks built on rolling bearing and gearbox datasets validate the effectiveness and superiority of the proposed method in generalization performance improvement.},
+	ISSN = {0951-8320},
+	DOI = {10.1016/j.ress.2023.109188},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN37,
+	author = {Shi, Zhen and Chen, Jinglong and Zi, Yanyang and Cao, Kuan and Li, Biao},
+	title = {Semi-physical simulation-driven contrastive decoupling net for intelligent fault diagnosis of unseen machines under varying speed},
+	journal = {Measurement Science and Technology},
+	volume = {35},
+	number = {7},
+	abstract = {Multi-source domain generalization provides a good idea for intelligent fault diagnosis of unseen machines. However, the acquisition of multi-source training sets would not only affect the generalization effect, but also cause huge economic loss. Too much difference between source training sets would lead to negative transfer, while too much similarity between the sets would cause zero transfer. Simultaneously, the current methods based on the assumption of stable speed cannot realize intelligent diagnosis under varying speed. Therefore, a semi-physical simulation-driven contrastive decoupling network is presented. First, a phenomenological model is used to generate large amount of simulation data with different modulation frequencies and signal-to-noise ratios to provide support for the training of the net. Next, with the joint help of simulation data and physical data, a contrastive framework is introduced to extract domain-independent features. Finally, a decoupling framework is proposed to minimize speed-related information while maximizing health-related features, thereby enabling intelligent diagnosis of unseen devices at varying speed. The proposed method is tested on two cases operating under sharp speed variation and compared with some state-of-the-art methods. The results show the superiority of the proposed net in intelligent diagnosis of unseen equipment under drastically varying speed.},
+	ISSN = {0957-0233},
+	DOI = {10.1088/1361-6501/ad36da},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN19,
+	author = {Smith, Wade A. and Randall, Robert B.},
+	title = {Rolling element bearing diagnostics using the Case Western Reserve University data: A benchmark study},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {64-65},
+	pages = {100-131},
+	abstract = {Vibration-based rolling element bearing diagnostics is a very well-developed field, yet researchers continue to develop new diagnostic algorithms quite frequently. Over the last decade, data from the Case Western Reserve University (CWRU) Bearing Data Center has become a standard reference used to test these algorithms, yet without any recognised benchmark it is difficult to properly assess the performance of any proposed diagnostic methods. There is, then, a clear need to examine the data thoroughly and to categorise it appropriately, and this paper intends to fulfil that objective. To do so, three established diagnostic techniques are applied to the entire CWRU data set, and the diagnostic outcomes are provided and discussed in detail. Recommendations are given as to how the data might best be used, and also on how any future benchmark data should be generated. Though intended primarily as a benchmark to aid in testing new diagnostic algorithms, it is also hoped that much of the discussion will have broader applicability to other bearing diagnostics cases. (C) 2015 Elsevier Ltd. All rights reserved.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2015.04.021},
+	year = {2015},
+	type = {Journal Article}
+}
+
+@article{RN3,
+	author = {Wang, Jindong and Lan, Cuiling and Liu, Chang and Ouyang, Yidong and Qin, Tao and Lu, Wang and Chen, Yiqiang and Zeng, Wenjun and Yu, Philip S.},
+	title = {Generalizing to Unseen Domains: A Survey on Domain Generalization},
+	journal = {IEEE Trans. on Knowl. and Data Eng.},
+	volume = {35},
+	number = {8},
+	pages = {8052–8072},
+	ISSN = {1041-4347},
+	DOI = {10.1109/tkde.2022.3178128},
+	year = {2023},
+	type = {Journal Article}
+}
+
+@article{RN20,
+	author = {Wen, Long and Li, Xinyu and Gao, Liang and Zhang, Yuyan},
+	title = {A New Convolutional Neural Network-Based Data-Driven Fault Diagnosis Method},
+	journal = {Ieee Transactions on Industrial Electronics},
+	volume = {65},
+	number = {7},
+	pages = {5990-5998},
+	abstract = {Fault diagnosis is vital in manufacturing system, since early detections on the emerging problem can save invaluable time and cost. With the development of smart manufacturing, the data-driven fault diagnosis becomes a hot topic. However, the traditional data-driven fault diagnosis methods rely on the features extracted by experts. The feature extraction process is an exhausted work and greatly impac7ts the final result. Deep learning (DL) provides an effective way to extract the features of raw data automatically. Convolutional neural network (CNN) is an effective DL method. In this study, a new CNN based on LeNet-5 is proposed for fault diagnosis. Through a conversion method converting signals into two-dimensional (2-D) images, the proposed method can extract the features of the converted 2-D images and eliminate the effect of handcrafted features. The proposed method which is tested on three famous datasets, including motor bearing dataset, self-priming centrifugal pump dataset, and axial piston hydraulic pump dataset, has achieved prediction accuracy of 99.79%, 99.481%, and 100%, respectively. The results have been compared with other DL and traditional methods, including adaptive deep CNN, sparse filter, deep belief network, and support vector machine. The comparisons show that the proposed CNN-based data-driven fault diagnosis method has achieved significant improvements.},
+	ISSN = {0278-0046},
+	DOI = {10.1109/tie.2017.2774777},
+	year = {2018},
+	type = {Journal Article}
+}
+
+@article{RN12,
+	author = {Wu, Fei and Xiang, Zhuohang and Xiao, Dengyu and Hao, Yaodong and Qin, Yi and Pu, Huayan and Luo, Jun},
+	title = {Adversarial-Causal Representation Learning Networks for Machine fault diagnosis under unseen conditions based on vibration and acoustic signals},
+	journal = {Engineering Applications of Artificial Intelligence},
+	volume = {139},
+	abstract = {To address the challenges of obtaining diverse data, domain generalization (DG) methods for fault diagnosis have been developed. Domain adversarial methods are currently the most popular, due to their ability to handle data from unknown domains without requiring target domain information. However, their capacity to extract domain-irrelevant features remains challenging, often resulting inaccuracy below 90% in many DG scenarios. This limitation stems from their inability to fully capture global dependencies, causing feature entanglement and redundant dependencies. To address these issues, we proposed a novel intelligent fault diagnosis method called Adversarial-Causal Representation Learning Networks (ACRLN), which is based on causal learning. By spatial mask domain adversarial method, ACRLN can significantly enhance data utilization by fully capturing the global dependency that are often ignored by domain adversarial algorithms. At the same time, causal learning is integrated into the ACRLN to further accomplish feature decoupling and the reduction of redundant dependency. This is achieved through channel feature orthogonality method combined with a loss function rooted in correlation analysis. Moreover, it adeptly addresses the spill-over effect often encountered in causal learning. Finally, ACRLN achieves better results and proves its effectiveness by comparison with several state-of-the-art fault diagnosis and DG algorithms on multiple datasets.},
+	ISSN = {0952-1976},
+	DOI = {10.1016/j.engappai.2024.109550},
+	year = {2025},
+	type = {Journal Article}
+}
+
+@article{RN42,
+	author = {Xiao, Yiming and Shao, Haidong and Wang, Jie and Cai, Baoping and Liu, Bin},
+	title = {Domain-augmented meta ensemble learning for mechanical fault diagnosis from heterogeneous source domains to unseen target domains},
+	journal = {Expert Systems with Applications},
+	volume = {259},
+	abstract = {Existing domain generalization (DG) fault diagnosis methods primarily use adversarial training to reduce shifts between source domains and learn domain-invariant features. However, such features are difficult to learn when dealing with substantial shifts between source domains. In addition, focusing only on domain-invariant and ignoring domain-specific information is not conducive to improving model generalization. Furthermore, these methods are typically developed under an assumption that source domains share the same label space. In situations where the source domains exhibit heterogeneity with inconsistent labels, as explored in this paper, aligning the source domains becomes more difficult due to severe class mismatches. To address the above challenges, this paper proposes a method named domain-augmented meta ensemble learning. Specifically, Dirichlet CutMix is developed to compensate for missing classes in a source domain by utilizing knowledge from other source domains. Moreover, a training strategy summarized as "learn to generalize to unseen domains through collaborative ensemble" is designed to balance the learning of domain-specific features with the ability to generalize across domains. The proposed method is applied to the bearing and gearbox fault diagnosis, and experimental results demonstrate the excellent generalization of the method from heterogeneous source domains to unseen target domains.},
+	ISSN = {0957-4174},
+	DOI = {10.1016/j.eswa.2024.125345},
+	year = {2025},
+	type = {Journal Article}
+}
+
+@misc{RN1,
+	author = {Xu, Mingjun and Qin, Lingyun and Chen, Weijie and Pu, Shiliang and Zhang, Lei},
+	title = {Multi-view Adversarial Discriminator: Mine the Non-causal Factors for Object Detection in Unseen Domains},
+	pages = {arXiv:2304.02950},
+	month = {April 01, 2023},
+	abstract = {Domain shift degrades the performance of object detection models in practical applications. To alleviate the influence of domain shift, plenty of previous work try to decouple and learn the domain-invariant (common) features from source domains via domain adversarial learning (DAL). However, inspired by causal mechanisms, we find that previous methods ignore the implicit insignificant non-causal factors hidden in the common features. This is mainly due to the single-view nature of DAL. In this work, we present an idea to remove non-causal factors from common features by multi-view adversarial training on source domains, because we observe that such insignificant non-causal factors may still be significant in other latent spaces (views) due to the multi-mode structure of data. To summarize, we propose a Multi-view Adversarial Discriminator (MAD) based domain generalization model, consisting of a Spurious Correlations Generator (SCG) that increases the diversity of source domain by random augmentation and a Multi-View Domain Classifier (MVDC) that maps features to multiple latent spaces, such that the non-causal factors are removed and the domain-invariant features are purified. Extensive experiments on six benchmarks show our MAD obtains state-of-the-art performance.},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition},
+	DOI = {10.48550/arXiv.2304.02950},
+	year = {2023},
+	type = {Electronic Article}
+}
+
+@article{RN6,
+	author = {Yan, Tongtong and Wang, Dong and Sun, Shilong and Shen, Changqing and Peng, Zhike},
+	title = {Novel sparse representation degradation modeling for locating informative frequency bands for Machine performance degradation assessment},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {179},
+	abstract = {Performance degradation assessment (PDA) is an intersection technology of machine condition monitoring, degradation evaluation, and fault diagnosis in condition-based maintenance (CBM). A commonly used strategy of PDA is to use a health index (HI) to detect an incipient fault for machine condition monitoring and subsequently to track monotonic performance degradation trajectories. Sparse representation, as a classical signal processing method, has been widely studied for machine fault diagnosis while its extension to PDA is seldom reported. Based on the sparsity property of fault signals in the frequency domain, a novel sparse representation degra-dation modeling methodology that integrates sparse representation and monotonic degradation modeling is proposed in this paper to enrich PDA. At first, the sparsity property of square en-velope spectra is thoroughly investigated. Based on the sparse representation theory, a HI is designed as the sum of weighted atoms. Besides, the amplitudes of square envelope spectra are used as a dictionary. Then, a sparse representation degradation model is proposed to realize the monotonicity property of a HI and the sparsity of weight coefficients. Experimental verification shows that HIs constructed from the proposed methodology are more suitable to PDA compared to existing HIs. Moreover, a prominent advantage of the proposed sparse degradation modeling is that no prior knowledge and complicated signal processing algorithms are required. Moreover, optimized weights are sparsely located at informative frequency bands for subsequent fault diagnosis, which provides informative frequencies for many blind fault diagnostic scenarios.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2022.109372},
+	year = {2022},
+	type = {Journal Article}
+}
+
+@misc{RN49,
+	author = {Yuan, Xiaobing and Chen, Ling},
+	title = {D-PAD: Deep-Shallow Multi-Frequency Patterns Disentangling for Time Series Forecasting},
+	pages = {arXiv:2403.17814},
+	month = {March 01, 2024},
+	abstract = {In time series forecasting, effectively disentangling intricate temporal patterns is crucial. While recent works endeavor to combine decomposition techniques with deep learning, multiple frequencies may still be mixed in the decomposed components, e.g., trend and seasonal. Furthermore, frequency domain analysis methods, e.g., Fourier and wavelet transforms, have limitations in resolution in the time domain and adaptability. In this paper, we propose D-PAD, a deep-shallow multi-frequency patterns disentangling neural network for time series forecasting. Specifically, a multi-component decomposing (MCD) block is introduced to decompose the series into components with different frequency ranges, corresponding to the "shallow" aspect. A decomposition-reconstruction-decomposition (D-R-D) module is proposed to progressively extract the information of frequencies mixed in the components, corresponding to the "deep" aspect. After that, an interaction and fusion (IF) module is used to further analyze the components. Extensive experiments on seven real-world datasets demonstrate that D-PAD achieves the state-of-the-art performance, outperforming the best baseline by an average of 9.48% and 7.15% in MSE and MAE, respectively.},
+	keywords = {Computer Science - Artificial Intelligence},
+	DOI = {10.48550/arXiv.2403.17814},
+	year = {2024},
+	type = {Electronic Article}
+}
+
+@inproceedings{RN44,
+	author = {Yue, Fengyu and Wang, Yong and Ieee},
+	title = {Cross-Domain Fault Diagnosis via Meta-Learning-Based Domain Generalization},
+	booktitle = {IEEE 18th International Conference on Automation Science and Engineering (IEEE CASE)},
+	series = {IEEE International Conference on Automation Science and Engineering},
+	pages = {1826-1832},
+	abstract = {In recent years, Intelligent Fault Diagnosis (IFD) technology, as a promising method, has been a hot research topic in the field of condition monitoring and diagnosis systems, which is the focus of ensuring industrial production safety and productivity. However, the utilities of many existing IFD methods are limited by the poor-quality monitoring data, most of which are unlabeled, non-stationary, and collected from various working conditions. In addition, the unavailability of the testing data in the IFD model training phase makes the problem more challenging but more practical. In the paper, a simple-structured one-dimensional convolutional neural network(1-D CNN) with a feature extractor, a classifier, and a meta-optimizer is constructed to tackle the tricky cross-domain issues. A scalable meta-learning-based domain generalization strategy is proposed to reduce the gap among the multi-source domains. As a result, the network can learn common fault knowledge from multiple related but different source domains and then be used to analyze new target domains. Two case studies verify the effectiveness, real-time performance, and application prospects of the proposed training strategy in cross-domain fault diagnosis tasks.},
+	ISBN = {978-1-6654-9042-9},
+	DOI = {10.1109/case49997.2022.9926497},
+	year = {2022},
+	type = {Conference Proceedings}
+}
+
+@article{RN51,
+	author = {Zhang, Kun and Xie, Shaoan and Ng, Ignavier and Zheng, Yujia},
+	title = {Causal Representation Learning from Multiple Distributions: A General Setting},
+	journal = {ArXiv},
+	volume = {abs/2402.05052},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@article{RN10,
+	author = {Zhao, Chao and Shen, Weiming},
+	title = {A domain generalization network combing invariance and specificity towards real-time intelligent fault diagnosis},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {173},
+	abstract = {Domain adaptation-based fault diagnosis (DAFD) methods have been explored to address cross-domain fault diagnosis problems, where distribution discrepancy exists between the training and testing data. However, the indispensable priori target distribution needed by DAFD methods hinders their application on real-time cross-domain fault diagnosis, where target data are not accessible in advance. To tackle this challenge, this paper proposes a novel domain generalization network for fault diagnosis under unknown working conditions. The main idea is to exploit domain invariance and retain domain specificity simultaneously, enabling deep models to benefit from the universal applicability of domain-invariant features while retaining the predictive power of specialized domain structures. Global distribution alignment and local class cluster are implemented to learn domain-invariant knowledge and obtain discriminant representations. Predictions of multiple task classifiers that preserve domain structures are optimally merged based on selected similarities for final diagnostic decisions. Extensive cross-domain fault diag-nostic experiments validated the effectiveness of the proposed method.},
+	ISSN = {0888-3270},
+	DOI = {10.1016/j.ymssp.2022.108990},
+	year = {2022},
+	type = {Journal Article}
+}
+
+@article{RN46,
+	author = {Zheng, Huailiang and Yang, Yuantao and Yin, Jiancheng and Li, Yuqing and Wang, Rixin and Xu, Minqiang},
+	title = {Deep Domain Generalization Combining A Priori Diagnosis Knowledge Toward Cross-Domain Fault Diagnosis of Rolling Bearing},
+	journal = {Ieee Transactions on Instrumentation and Measurement},
+	volume = {70},
+	abstract = {Recent works suggest that using knowledge transfer strategies to tackle cross-domain diagnosis problems is promising for achieving engineering diagnosis. This article presents a diagnosis scheme for rolling bearing under a challenging domain generalization scenario, in which more potential discrepancies among multiple source domains are eliminated and only normal samples of the target domain are available during the training stage. To achieve sufficient generalization performance, a diagnosis scheme combining some a priori diagnosis knowledge and a deep domain generalization network for fault diagnosis (DDGFD) is elaborated. Through signal preprocessing steps guided by the a priori diagnosis knowledge, the inputs of DDGFD with a primary consistent meaning across domains are constructed from the vibration signal. On this basis, DDGFD would intently release its talent on learning discriminative and domain-invariant fault features from source domains, and then generalize the learned knowledge to identify unseen target samples. On cross-domain tasks organized using broad bearing data sets, the superiority of DDGFD is validated by comparing its performance with various data-driven diagnosis methods.},
+	ISSN = {0018-9456},
+	DOI = {10.1109/tim.2020.3016068},
+	year = {2021},
+	type = {Journal Article}
+}
+
+@misc{RN16,
+	author = {Zhou, Xiao and Lin, Yong and Zhang, Weizhong and Zhang, Tong},
+	title = {Sparse Invariant Risk Minimization},
+	publisher = {PMLR},
+	volume = {162},
+	pages = {27222--27244},
+	abstract = {Invariant Risk Minimization (IRM) is an emerging invariant feature extracting technique to help generalization with distributional shift. However, we find that there exists a basic and intractable contradiction between the model trainability and generalization ability in IRM. On one hand, recent studies on deep learning theory indicate the importance of large-sized or even overparameterized neural networks to make the model easy to train. On the other hand, unlike empirical risk minimization that can be benefited from overparameterization, our empirical and theoretical analyses show that the generalization ability of IRM is much easier to be demolished by overfitting caused by overparameterization. In this paper, we propose a simple yet effective paradigm named Sparse Invariant Risk Minimization (SparseIRM) to address this contradiction. Our key idea is to employ a global sparsity constraint as a defense to prevent spurious features from leaking in during the whole IRM process. Compared with sparisfy-after-training prototype by prior work which can discard invariant features, the global sparsity constraint limits the budget for feature selection and enforces SparseIRM to select the invariant features. We illustrate the benefit of SparseIRM through a theoretical analysis on a simple linear case. Empirically we demonstrate the power of SparseIRM through various datasets and models and surpass state-of-the-art methods with a gap up to 29%.},
+	year = {2022},
+	type = {Conference Paper}
+}
+
+@article{RN26,
+	author = {Zhu, Yumeng and Zi, Yanyang and Li, Jie and Xu, Jing},
+	title = {PhysiCausalNet: A Causal- and Physics-Driven Domain Generalization Network for Cross-Machine Fault Diagnosis of Unseen Domain},
+	journal = {Ieee Transactions on Industrial Informatics},
+	volume = {20},
+	number = {6},
+	pages = {8488-8498},
+	abstract = {Domain generalization for intelligent fault diagnosis is a technology that can acquire diagnostic knowledge from related machines and generalize to the unseen domain. However, the structure and working conditions differences between machines lead to significant variation in data distribution, making it difficult to generalize the trained network directly to unseen machines. This research proposed PhysiCausalNet, a causal- and physics-driven domain generalization network that mines the fault causality and incorporates the physical prior knowledge of the unseen target machine to realize domain-invariant feature extraction and domain-specific knowledge embedding. To form the cross-domain invariant causal mechanism, the progressive consistency causal factorization loss is proposed to separate the fault causal factors from implicit representation. Meanwhile, for the adaptability to a specific domain without involving the target domain data, the Fourier filter demodulation structure is proposed to extract periodic fault components, and the dynamics embedding loss is designed according to prior physical knowledge of the target machine as a physical constraint for the network. The effectiveness of proposed approach is verified in four machines and twelve working conditions including public, laboratory, and industrial datasets.},
+	ISSN = {1551-3203},
+	DOI = {10.1109/tii.2024.3369240},
+	year = {2024},
+	type = {Journal Article}
+}
+
+@ARTICLE{2019arXiv190702893A,
+	author = {{Arjovsky}, Martin and {Bottou}, L{\'e}on and {Gulrajani}, Ishaan and {Lopez-Paz}, David},
+	title = "{Invariant Risk Minimization}",
+	journal = {arXiv e-prints},
+	keywords = {Statistics - Machine Learning, Computer Science - Artificial Intelligence, Computer Science - Machine Learning},
+	year = 2019,
+	month = jul,
+	eid = {arXiv:1907.02893},
+	pages = {arXiv:1907.02893},
+	doi = {10.48550/arXiv.1907.02893},
+	archivePrefix = {arXiv},
+	eprint = {1907.02893},
+	primaryClass = {stat.ML},
+	adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@ARTICLE{9976035,
+	author={Mo, Zhenling and Zhang, Zijun and Miao, Qiang and Tsui, Kwok-Leung},
+	journal={IEEE Transactions on Cybernetics}, 
+	title={Sparsity-Constrained Invariant Risk Minimization for Domain Generalization With Application to Machinery Fault Diagnosis Modeling}, 
+	year={2024},
+	volume={54},
+	number={3},
+	pages={1547-1559},
+	keywords={Fault diagnosis;Entropy;Machinery;Data models;Machine learning;Risk management;Adaptation models;Causal learning;fault diagnosis;model generalization;risk minimization;sparsity measure},
+	doi={10.1109/TCYB.2022.3223783}}
+
+@ARTICLE{2020arXiv200607500M,
+	author = {{Mahajan}, Divyat and {Tople}, Shruti and {Sharma}, Amit},
+	title = "{Domain Generalization using Causal Matching}",
+	journal = {arXiv e-prints},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	year = 2020,
+	month = jun,
+	eid = {arXiv:2006.07500},
+	pages = {arXiv:2006.07500},
+	doi = {10.48550/arXiv.2006.07500},
+	archivePrefix = {arXiv},
+	eprint = {2006.07500},
+	primaryClass = {cs.LG},
+	adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@ARTICLE{2021arXiv210203902X,
+	author = {{Xiong}, Yunyang and {Zeng}, Zhanpeng and {Chakraborty}, Rudrasis and {Tan}, Mingxing and {Fung}, Glenn and {Li}, Yin and {Singh}, Vikas},
+	title = "{Nystr{\"o}mformer: A Nystr{\"o}m-Based Algorithm for Approximating Self-Attention}",
+	journal = {arXiv e-prints},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+	year = 2021,
+	month = feb,
+	eid = {arXiv:2102.03902},
+	pages = {arXiv:2102.03902},
+	doi = {10.48550/arXiv.2102.03902},
+	archivePrefix = {arXiv},
+	eprint = {2102.03902},
+	primaryClass = {cs.CL},
+	adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@ARTICLE{11004069,
+	author={Sun, Zhizheng and Zhu, Xiaomin and Liu, Jian and Zhao, Xiangkun and Wang, Hanxi and Zhang, Runtong},
+	journal={IEEE Transactions on Instrumentation and Measurement}, 
+	title={A Causality-Inspired Capsule Network for Domain Generalization in Cross-Domain Fault Diagnosis of Rolling Bearing}, 
+	year={2025},
+	volume={74},
+	number={},
+	pages={1-10},
+	keywords={Fault diagnosis;Feature extraction;Rolling bearings;Vectors;Training;Data models;Time-frequency analysis;Routing;Representation learning;Employee welfare;Capsule network (CN);causal intervention;causal representation learning;domain generalization (DG);fault diagnosis},
+	doi={10.1109/TIM.2025.3569920}}
+
+@ARTICLE{10816046,
+	author={Xie, Yining and Yang, Guojun and Chen, Hongzhan and Zhao, Zhichao and Leng, Xin},
+	journal={IEEE Transactions on Instrumentation and Measurement}, 
+	title={Invariant Feature Purification Method for Domain Generalization of Rolling Bearing Fault Diagnosis}, 
+	year={2025},
+	volume={74},
+	number={},
+	pages={1-11},
+	keywords={Feature extraction;Fault diagnosis;Training;Purification;Vibrations;Data models;Data mining;Rolling bearings;Employee welfare;Adaptation models;Adversarial learning;domain generalization;fault diagnosis;feature purification;invariant feature},
+	doi={10.1109/TIM.2024.3522623}}
+
+@ARTICLE{8643085,
+	author={Zheng, Huailiang and Wang, Rixin and Yang, Yuantao and Li, Yuqing and Xu, Minqiang},
+	journal={IEEE Transactions on Industrial Electronics}, 
+	title={Intelligent Fault Identification Based on Multisource Domain Generalization Towards Actual Diagnosis Scenario}, 
+	year={2020},
+	volume={67},
+	number={2},
+	pages={1293-1304},
+	keywords={Fault diagnosis;Manifolds;Training;Task analysis;Neural networks;Data models;Knowledge transfer;Actual diagnosis scenario;data-driven fault diagnosis;multisource domain generalization},
+	doi={10.1109/TIE.2019.2898619}}
+
+@ARTICLE{9452118,
+	author={Han, Te and Li, Yan-Fu and Qian, Min},
+	journal={IEEE Transactions on Instrumentation and Measurement}, 
+	title={A Hybrid Generalization Network for Intelligent Fault Diagnosis of Rotating Machinery Under Unseen Working Conditions}, 
+	year={2021},
+	volume={70},
+	number={},
+	pages={1-11},
+	keywords={Fault diagnosis;Data models;Machinery;Employee welfare;Task analysis;Feature extraction;Training;Deep learning;domain generalization;intelligent fault diagnosis;rotating machinery;vibration signal},
+	doi={10.1109/TIM.2021.3088489}}
+
+@article{HU2022104896,
+	title = {Deep subdomain generalisation network for health monitoring of high-speed train brake pads},
+	journal = {Engineering Applications of Artificial Intelligence},
+	volume = {113},
+	pages = {104896},
+	year = {2022},
+	issn = {0952-1976},
+	doi = {https://doi.org/10.1016/j.engappai.2022.104896},
+	author = {Ruohui Hu and Min Zhang and Xiangyin Meng and Zhuang Kang},
+	keywords = {High-speed train, Uneven wear of brake pads, Health monitoring, Subdomain generalisation},
+	abstract = {Uneven wear at different locations in high-speed train brake pads creates inconsistent vibrations, which make the criteria learned by the intelligent model hard to standardise to determine friction block failure. Variable friction-induced vibration makes brake pad health monitoring a cross-domain diagnostic problem. This study proposes a deep subdomain generalisation network for online monitoring of the health status of train brake pads. In contrast to existing transfer learning methods, the proposed approach does not assume the availability of test data during training. The model is generalised using unsupervised learning to new scenarios with unknown specific locations of uneven wear. The network reduces the discrepancy explicitly among the distributions of relevant source subdomains using local maximum mean discrepancy, which helps subdomains with identical labels more accurately find an appropriate common subspace. Furthermore, Bayesian optimisation is used to unify feature extraction, domain generalisation and hyper-parameter optimisation into a framework. The vibration–acceleration signals of different friction blocks are collected, and generalisation experiments are performed on both braking-friction and rotating-machinery datasets. The results indicate that the proposed model outperforms the other domain generalisation approaches and accurately identifies the state of a target friction block.}
+}
+
+@ARTICLE{10121353,
+	author={Wang, Bin and Wen, Long and Li, Xinyu and Gao, Liang},
+	journal={IEEE Transactions on Instrumentation and Measurement}, 
+	title={Adaptive Class Center Generalization Network: A Sparse Domain-Regressive Framework for Bearing Fault Diagnosis Under Unknown Working Conditions}, 
+	year={2023},
+	volume={72},
+	number={},
+	pages={1-11},
+	keywords={Fault diagnosis;Feature extraction;Adaptation models;Training;Adaptive systems;Mathematical models;Employee welfare;Adaptive central loss;discriminative feature;domain generalization;fault diagnosis;sparse representation},
+	doi={10.1109/TIM.2023.3273659}}
+
+@article{ZHANG2025112460,
+	title = {Dual disentanglement domain generalization method for rotating Machinery fault diagnosis},
+	journal = {Mechanical Systems and Signal Processing},
+	volume = {228},
+	pages = {112460},
+	year = {2025},
+	issn = {0888-3270},
+	doi = {https://doi.org/10.1016/j.ymssp.2025.112460},
+	author = {Guowei Zhang and Xianguang Kong and Hongbo Ma and Qibin Wang and Jingli Du and Jinrui Wang},
+	keywords = {Rotating machinery, Domain generalization, Fault diagnosis, Feature disentanglement},
+	abstract = {The objective of domain generalization fault diagnosis is to develop a robust model that can generalize to unseen domains. This makes it a highly ambitious and challenging task. However, most current methods rely on domain labels to extract domain-invariant features and do not consider the negative impact of the presence of class-irrelevant features in domain-invariant features on generalization. Therefore, this paper proposes a dual disentanglement domain generalization method for rotating machinery fault diagnosis that does not depend on domain labels. Based on the analysis of the potential features between domains and class labels, a dual contrastive disentanglement module and an adversarial mask disentanglement module are proposed to disentangle the domain-invariant and class-relevant features, respectively. Specifically, in the dual contrastive disentanglement module, the concept of contrasting is employed to train the network shallow features of the source data and the style-enhanced data to produce domain-aware mask decoupled domain-specific and domain-invariant representations. The adversarial mask disentanglement module uses an adversarial classifier to update the class-aware mask and further accurately separate class-relevant and class-irrelevant features. Concurrently, the KLD loss is devised to guarantee that the class-relevant features encompass sufficient labeling information. Finally, the efficacy of the method is substantiated by comprehensive experimental findings on both public and private datasets. The code will be available at: https://github.com/GuoweiaaZhang/DDDG.}
+}
+
+@article{LI2023109171,
+	title = {Cross-domain augmentation diagnosis: An adversarial domain-augmented generalization method for fault diagnosis under unseen working conditions},
+	journal = {Reliability Engineering and System Safety},
+	volume = {234},
+	pages = {109171},
+	year = {2023},
+	issn = {0951-8320},
+	doi = {https://doi.org/10.1016/j.ress.2023.109171},
+	author = {Qi Li and Liang Chen and Lin Kong and Dong Wang and Min Xia and Changqing Shen},
+	keywords = {Domain augmentation, Fault diagnosis, Unseen working condition, Rotating machinery, Domain generalization},
+	abstract = {Intelligent fault diagnosis based on domain adaptation has recently been extensively researched to promote reliability of safety-critical assets under different working conditions. However, target data may be inaccessible in the model training phase, resulting in the degradation or failure of the diagnosis model. Therefore, this paper introduces a new idea called cross-domain augmentation (CDA) to achieve diagnosis under unseen working conditions, which are frequently occurred in industrial scenarios. To realize this idea, an adversarial domain-augmented generalization (ADAG) method is proposed with domain augmentation via convex combination of data and feature-label pairs. Through adversarial training on multi-source domains and the augmented domain, ADAG enables learning generalized and augmented features, which are proximal representation in the unseen domain, facilitating the generalization ability of the model. Moreover, feature extractor and domain classifier are optimized as adversaries in model training to obtain domain-invariant features, while the fault classifier is trained to identify the features. Extensive experiment studies indicate that ADAG can successfully solve the cross-domain diagnosis problem under unseen working conditions. For SDUST case study, ADAG promotes the model accuracy by 1.44%; while for a more challenging Ottawa case study, it promotes the model accuracy by 5.34%. Moreover, the domain discrepancy is reduced by 4.6%.}
+}
+
+@article{LI2020409,
+	title = {Domain generalization in rotating machinery fault diagnostics using deep neural networks},
+	journal = {Neurocomputing},
+	volume = {403},
+	pages = {409-420},
+	year = {2020},
+	issn = {0925-2312},
+	doi = {https://doi.org/10.1016/j.neucom.2020.05.014},
+	author = {Xiang Li and Wei Zhang and Hui Ma and Zhong Luo and Xu Li},
+	keywords = {Domain generalization, Deep learning, Rotating machines, Transfer learning, Fault diagnosis},
+	abstract = {The past years have witnessed the successful development of intelligent machinery fault diagnostic methods. Besides the basic data-driven fault diagnosis tasks where the training and testing data are collected from the same distribution, the more practical cross-domain problems have also attracted much attention considering variations of machine operating conditions. In the literature, most existing studies generally assume the availability of testing data during model training, thus facilitating explicit domain adaptations. However, this assumption poses obstacles in the application on real-time cross-domain fault diagnosis, where the testing data can not be obtained in advance. This paper proposes a deep learning-based domain generalization method for machinery fault diagnosis. A domain augmentation method is adopted to expand the available dataset. Domain adversarial training is implemented, and generalized features can be learned from different domains, which hold in new working scenarios without assuming the availability of testing data. Distance metric learning is also used to further enhance model robustness in fault classifications. Through experiments on two rotating machinery datasets, the effectiveness of the proposed method is validated, which is promising in on-line cross-domain fault diagnosis tasks.}
+}
+
+@article{GAO2024111506,
+	title = {Industrial process fault diagnosis based on feature enhanced meta-learning toward domain generalization scenarios},
+	journal = {Knowledge-Based Systems},
+	volume = {289},
+	pages = {111506},
+	year = {2024},
+	issn = {0950-7051},
+	doi = {https://doi.org/10.1016/j.knosys.2024.111506},
+	author = {Yu Gao and Jin Qi and Ying Sun and Xiaoxuan Hu and Zhenjiang Dong and Yanfei Sun},
+	keywords = {Domain generalization, Meta-learning, Gated recurrent units, Fault diagnosis, Industrial process},
+	abstract = {With the rise of the Internet of Things, computing science, and artificial intelligence, data-driven fault diagnosis methods for industrial processes have attracted considerable attention. However, these methods typically assume that the distribution of the test data (target domains) is similar to that of the training data (source domains), making it difficult to deploy them in actual scenarios because the distribution of the collected data varies with operating conditions. Faced with this challenge, a novel fault diagnosis method based on feature enhanced meta-learning (FEML) is proposed to learn domain generalization knowledge effectively. It aims to jointly extract domain-invariant information that can be transferred across domains, and domain-specific information related to classification labels. First, feature extractors based on gated recurrent units (GRUs) are designed to capture domain-invariant and domain-specific representations with time-sequence characteristics from industrial process data. Second, a meta-learning strategy is introduced to enhance the domain-specific representation, thus improving the generalization ability of the model without accessing the target domains. Finally, the Tennessee Eastman process (TEP), Fed-Batch Fermentation Penicillin process (FBFP), and Three-Phase Flow process (TPFP) are used to verify the effectiveness of FEML. The results illustrate that the FEML is robust and outperforms other related methods. The diagnostic accuracies for TEP, FBFP, and TPFP are 87.11%, 95.94%, and 83.07%, respectively.}
+}
+
+@ARTICLE{10930619,
+	author={Xu, Kaixiong and Li, Shuang and Xu, Shuiqing and Hu, Youqiang and Mao, Yongfang and Chai, Yi},
+	journal={IEEE Transactions on Instrumentation and Measurement}, 
+	title={Mutual Information-Guided Domain-Shared Feature Learning for Bearing Fault Diagnosis Under Unknown Conditions}, 
+	year={2025},
+	volume={74},
+	number={},
+	pages={1-12},
+	keywords={Feature extraction;Fault diagnosis;Training;Employee welfare;Data mining;Representation learning;Mutual information;Data augmentation;Adversarial machine learning;Time-frequency analysis;Decoupled representation;deep learning;domain generalization;domain-shared feature learning;fault diagnosis;mutual information},
+	doi={10.1109/TIM.2025.3552003}}
+
+@Article{e20100747,
+	AUTHOR = {Wu, Bo and Gao, Yangde and Feng, Songlin and Chanwimalueang, Theerasak},
+	TITLE = {Sparse Optimistic Based on Lasso-LSQR and Minimum Entropy De-Convolution with FARIMA for the Remaining Useful Life Prediction of Machinery},
+	JOURNAL = {Entropy},
+	VOLUME = {20},
+	YEAR = {2018},
+	NUMBER = {10},
+	ARTICLE-NUMBER = {747},
+	PubMedID = {33265836},
+	ISSN = {1099-4300},
+	ABSTRACT = {To reduce the maintenance cost and safeguard machinery operation, remaining useful life (RUL) prediction is very important for long term health monitoring. In this paper, we introduce a novel hybrid method to deal with the RUL prediction for health management. Firstly, the sparse reconstruction algorithm of the optimized Lasso and the Least Square QR-factorization (Lasso-LSQR) is applied to compressed sensing (CS), which can realize the sparse optimization for long term health monitoring data. After the sparse signal is reconstructed, the minimum entropy de-convolution (MED) is used to identify the fault characteristics and to obtain significant fault information from the machinery operation. Health indicators with Skip-over, sample entropy and approximate entropy are then performed to track the degradation of the machinery process. The performance analysis of the Skip-over is superior to other indicators. Finally, Fractal Autoregressive Integrated Moving Average model (FARIMA) is employed to predict the Skip-over using the R/S method. The analysis results evidence that the novel hybrid method yields a good performance, and such method can achieve highly accurate RUL prediction and safeguard machinery operation for long term monitoring.},
+	DOI = {10.3390/e20100747}
+}
+
+@INPROCEEDINGS{10657913,
+	author={Zhou, Shihao and Chen, Duosheng and Pan, Jinshan and Shi, Jinglei and Yang, Jufeng},
+	booktitle={2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+	title={Adapt or Perish: Adaptive Sparse Transformer with Attentive Feature Refinement for Image Restoration}, 
+	year={2024},
+	volume={},
+	number={},
+	pages={2952-2963},
+	keywords={Adaptation models;Matched filters;Rain;Termination of employment;Transformer cores;Transformers;Information filters;Image Restoration;Adaptive Sparse Transformer},
+	doi={10.1109/CVPR52733.2024.00285}}
+
+
