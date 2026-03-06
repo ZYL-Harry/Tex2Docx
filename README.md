@@ -64,4 +64,5 @@
     * pdfium.lib
 * 项目部署：
     * 编译convert2exe.cpp生成项目的exe可执行文件
-    * 将后端文件main.py、可执行文件、依赖的动态链接库pdfium.dll放置同一目录下，运行main.py即可获得服务监听的网络端口
+    * 将后端文件main.py、可执行文件、依赖的动态链接库pdfium.dll放置同一目录下
+    * 运行main.py即可获得服务监听的网络端口
