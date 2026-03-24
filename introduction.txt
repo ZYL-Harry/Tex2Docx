@@ -1,0 +1,65 @@
+TEX2DOCX转换流程：
+
+1、分析：格式转换可以分解为多个子元素的转换，这些子元素包括——标题、文段、公式、图片、表格这些
+		∴先封装了一个抽象语法树（AST）的命名空间（namespace）作为“数据容器”来囊括这些元素
+		其中，每个元素使用的是结构体来定义，其中的成员包括了它的段落格式和内容
+
+2、读取tex文件中的上述元素
+	- 创建了一个“TexParser”类来读取和解析tex文件中的元素
+		- 在创建这个对象的时候，调用它的构造函数，就直接调用读取latex默认格式的文件“.cls”，来获得包含元素的基础属性——根据需要提取的段落属性内容从格式文件中左字符串分割和提取
+			- get_default_style();
+		- 先读取“.bib”文件中的参考文献，写入抽象语法树中——字符串分割和提取
+			- parse_reference()
+		- 后续开始逐段读取和解析：
+			- parse()中parse_block()，包括：文章格式属性、文章基本信息、摘要、关键词、各级标题、列举条目、公式、图像、表格、普通文段
+			- 基本基于字符串分割和提取
+
+3、写入docx文件——涉及将数据写成“XML”格式
+	- 创建一个“DocxGenerator”类来处理上述元素并写入docx文件
+		- 其中使用一个继承于“minidocx::Document”的“DocxDocument”类用来写入docx文件
+						（1）创建 ZIP 容器
+						（2）生成 XML 内容：生成符合 OOXML 标准的 XML 文档
+						（3）保存为“.docx”文件
+			- minidocx库【基于“pugixml”库开发，提供编辑】：一个开源的用来生成docx文件的库，可以设置属性，写入文字、表格、图片
+			- “DocxDocument”类：主要补充公式的写入
+		- 生成docx文件：generate()，包括：添加文章页面格式、写入文章基本信息、写入文章摘要、写入文章关键词、写入文章正文、写入补充信息、写入参考文献
+			- 普通文段的写入：调用“DocxDocument”类中的函数
+			- 图像、表格、参考文献的标识：使用队列处理，方便搜索已存图像（表格、参考文献）从而给图像（表格、参考文献）编号
+				- 如：std::queue<std::shared_ptr<AST::Reference>> citeQueue;
+						（1） 搜索队列中是否已存在该引用
+						（2） 如果存在，返回其在队列中的位置（即编号）
+						（3） 如果不存在，加入队列并返回新编号
+				- 考虑到队列“先进先出”的特性满足这些元素的顺序编号
+			- 公式：转换至OMML（Office Math Markup Language）格式——Microsoft Office中用于表示数学公式的XML格式
+				- 所有公式的转换函数：DocxDocument::writeFormula()——>DocxDocument::latex2omml()
+				- 在“DocxDocument::latex2omml()”中：以“if（有上下标）”作区分，逐项处理——对于含有上下标的公式做“复杂公式”处理，否则做“简单公式处理”
+					- 复杂公式：DocxDocument::writeComplexFormula()
+						- 设计一个“上下标”二叉树作为公式的基本单元：
+													struct FormulaNode {
+														std::string data;
+														std::shared_ptr<FormulaNode> sup;  // 上标
+														std::shared_ptr<FormulaNode> sub;  // 下标
+													};
+						- 设计以“大括号和分数为最高级结构”的递归算法来写入嵌套公式
+							- 先将待处理公式按“上下标”进行分解，得到一个含有基数、上标、下标的数组：splitBiggestSupSub()
+							- 退出条件：当该递归层的“基数”不包含“大括号”或者“分数”时，逐项处理整个公式
+								- 循环中：
+									（1）分解“剩余公式”，得到含有基数、上标、下标的数组
+									（2）判断“基数”是否包含“大括号”或者“分数”：不包含则写入，包含则调用“复杂公式”处理其中内容
+							- 当该递归层的“基数”包含“大括号”或者“分数”时，先处理“括号/分数前”内容，再处理“括号/分数相关”内容
+								- 处理“括号/分数前”内容：
+									- 将内容存入“上下标”二叉树：DocxDocument::searchSubTree()，并写入：DocxDocument::writeTree(m_r, formula_tree);
+								- 处理“括号/分数相关”内容：
+									- 先判断“括号”和“分数”是否都出现？谁先出现？
+									- 选择调用：DocxDocument::processBracketComplexFormula() or DocxDocument::processFracComplexFormula()
+										- 处理“括号”内容：DocxDocument::processBracketComplexFormula()：
+											（1）提取出字符串中最外层的括号的内容
+											（2）判断括号后是否还存在其他内容（针对“括号自带上下标”的情况）
+												（2.1）是存在后续内容：
+													（2.1.1）判断括号后是否紧接“上下标”（formula_latex_complex[p_next]），是则先行写入上下标，否则插入普通节点
+													（2.1.2）继续调用“复杂公式”处理其中基数部分内容
+												（2.2）内容完整：继续调用“复杂公式”处理其中内容
+										- 处理“分数”内容：DocxDocument::processFracComplexFormula()：分别对“分子”和“分母”调用“复杂公式”处理其中内容
+					- 简单公式：文本放入“上下标”二叉树的基数，写入：writeTree(m_r, formula_tree);
+			- 图像：使用pdfium实现PDF到高清PNG的转换，在调用“DocxDocument”类中的函数写入
+		

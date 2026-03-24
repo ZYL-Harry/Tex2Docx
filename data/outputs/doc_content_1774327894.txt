@@ -1,0 +1,930 @@
+Cyclostationarity-Enhanced Multi-Source Domain Generalization with Mixture-of-Experts for Rolling Bearing Fault Diagnosis
+Youlong Zhang
+1, 2 
+, Shan Jiang
+1 
+, Wenrui Wang
+1 
+, Jianfeng Yu
+1, 2 
+, Fanglin Lu
+1 
+, and Bo Wu
+1, 2,* 
+1 
+Shanghai Advanced Research Institute, Chinese Academy of Sciences, Shanghai, 201210, People’s Republic of China
+2 
+University of Chinese Academy of Sciences, Beijing, 10049, People’s Republic of China
+E-mail: 
+zhangyoulong@sari.ac.cn, jiangshan@sari.ac.cn, wangwr@sari.ac.cn, yujf@sari.ac.cn, lufl@sari.ac.cn, wubo@sari.ac.cn
+Abstract
+Cross-domain fault diagnosis for rolling bearings under unseen working conditions is a challenging yet essential task, as the distribution bias significantly degrades the performance of data-driven methods. Causality-inspired domain generalization aims to address this challenge, with existing methods primarily focusing on designing loss functions for alignment or gradient-based operations from an entire signal perspective, which, however, overlooks the risk that biased alignment may induce spurious correlations and misguide learning. To this end, we reformulate the problem from a more physical and fine-grained perspective by explicitly localizing causal frequency bands and activating richer and more robust fault-related features to eliminate spurious features. Building on this insight, we propose a frequency band-aware method with a cyclostationarity-enhanced representation. Specifically, we first introduce a representation based on spectral correlation density (SCD) for wavelet packet-decomposed frequency bands. Then, treating cycle frequencies as channels, an adaptive feature extractor is designed based on a mixture-of-experts (MoE) block with a multi-view router integrating the views of spectrum, frequency band, and entire sample to adaptively extract features across samples. To further enhance feature robustness, we introduce a prior knowledge guidance. With cycle frequency-level features of frequency bands, a frequency band-aware attention module based on a tokenized Transformer, enhanced with an entropy-based sparsity regularization, is designed to model inter-band dependencies and localize fault-related frequency bands. Experiments are conducted on Case Western Reserve University (CWRU), Paderborn University (PU), and Harbin Institute of Technology (HIT) bearing datasets, and the proposed method shows effectiveness and interpretability across transfer tasks with different spans.
+Keywords: 
+Rolling bearing, Fault diagnosis, Multi-source domain generalization, Causality, Cyclostationarity.
+Introduction
+Deep learning based rolling bearing fault diagnosis has gained widespread attention in recent years because of its strong capability of automatic feature extraction, which effectively circumvents physically modeling for sophisticated rotational mechanical systems and bias arisen from manual feature extraction, e.g., CNN-based [1], autoencoder-based [2], deep belief network-based [3]. However, these models fail when applied to scenarios involving cross working conditions. The underlying reasons stem from disparities in data distribution and limited availability and diversity of source data in the real-world industry. These two limitations directly contradict the fundamental premises of the traditional deep learning-based methods trained by the empirical risk minimization paradigm (ERM): the sufficiency of source data, and the independently and identically distributed (i.i.d.) condition of source and target data [4]. Therefore, it is necessary to extend the traditional deep learning-based fault diagnosis to achieve the generalization capability of rolling bearing fault diagnosis for cross working condition scenarios.
+Domain generalization is a branch within transfer learning, aiming at training a model from source domains with labels and directly generalizing to unseen target domains [5]. This theory particularly matches real-time fault diagnosis scenarios characterized by complex and frequent emergence of unseen working conditions. From the perspective of domain generalization, there are several paradigms proposed, including data augmentation [6, 7, 8, 9, 10], feature disentanglement [11, 12], ensemble learning [13, 14], and meta-learning [15, 16]. Recently, several studies [4, 17, 18, 19, 20, 21, 22, 23, 24] have introduced causal mechanism as an advanced tool of feature disentanglement into cross-domain fault diagnosis with the assumption that data is made up of causal features and non-causal features, and the causal features is the key to achieve domain generalization. These existing causality-inspired fault diagnosis methods can be divided into two groups: feature separation [17, 18, 21, 22, 24, 25, 26, 27], i.e., identifying and separating causal and non-causal features during model optimization, and feature purification [4, 23], i.e., obtaining causal features by removing non-causal features during model optimization. Feature separation introduces a hypothetical structural causal model based on data generation, with two unobservable variables as fault-related features and fault-irrelevant features respectively to block the spurious correlation between state label and working condition. The most popular approaches implementing feature separation are to design some specific loss functions to align or aggregate fault-related features and fault-irrelevant features, respectively. On the contrary, feature purification introduces a hypothetical structural causal model based on model inference. The most common approaches to implement feature suppression are to employ gradient-based operations, e.g., reversal and truncation.
+However, existing causality-inspired data-driven methods have certain limitations: (1) limited transparent diagnostic procedure, (2) retention of spurious features, (3) limited capability for adaptive feature extraction.
+Limited transparent diagnostic procedure.
+ Most existing methods derive from computer vision and time series processing, in which raw signals are directly fed into black-box feature extractors and classifiers to fit an abstract input-output relation. Such paradigms do not take the unique physical characteristics of mechanical monitoring signals, e.g. impulsiveness, cyclostationarity, into account during the design of the diagnosis model and lack the interpretability objectively. This results in difficulty in further fault mechanism analysis and limited model improvability for future, more complex cases. Therefore, we aim to find a more suitable input feature that are better suited for tracking the physical nature of faults and establish a transparent diagnostic model.
+Retention of spurious features.
+ Both feature alignment and domain adversarial based methods are fundamentally constrained by the diversity of source domains. The features obtained through alignment regularization or adversarial removal are inherently domain-dependent and biased with spurious features, i.e., the implicitly insignificant non-causal features absorbed as the common features of source domains. This problem can be attributed to the fact that domain-invariant features learned from biased data distributions are not necessarily causal and cannot adapt well to the unseen target domain, especially in cases with large distribution gaps [28]. [29] employed parallel multi-branch architectures to eliminate spurious features from multiple views. However, the architectural complexity arising from the large number of branches causes additional computational overhead, and the sensitivity of the type and number of branches limits the scenario adaptability.
+Through literature review, we noticed that, in computer vision, some studies enhance domain generalization by identifying confounders from a more specialized view with physically interpretable and quantifiable variables, e.g., [28] treated scene context as confounders and used an attention invariance loss to capture image-level features of objects in the object detection task. Such physics-informed design clarifies the feature extraction targets and effectively suppresses confounder effects. This inspires us to rethink and identify confounders in cross-domain fault diagnosis. 
+We observe that the confounders in cross condition fault diagnosis primarily include variations caused by different rotation speed and load, e.g., different amplitude and different speed-dependent harmonics, environment noise, and sensor noise. To reflect these features from the complex structure of mechanical signals, the frequency domain is a well-known space with different mechanisms pertaining to different frequency bands, including fault-induced patterns, working condition-generated vibrations, and environmental noise [30]. Therefore, we formulate the problem from a more physical and fine-grained perspective by focusing on frequency bands, and treat frequency bands associated with environments and working conditions as confounders. Following this perspective, we aim to develop a module to localize the causal frequency bands associated with health state while filtering out environment-related frequency bands, in order to eliminate spurious features as much as possible, thereby boosting domain generalization and improving interpretability as well.
+Limited capability for adaptive feature extraction.
+ Most existing models are conventional static models that apply uniform attention to data from different domains. This is not effective enough because feature patterns are distinct across health states and working conditions. Even under identical working conditions, slight environmental differences may lead to inconsistent representations. To activate suitable features for different samples, [23] designed a dynamic convolution network with attention-guided weights from multiple views to adaptively extract features across different samples. But the complexity of multi-objective optimization within a single dynamic convolutional module introduces considerable complexity, making it difficult to optimize effectively. Therefore, it still lacks a suitable feature extractor for generalization across working conditions, which is the base for data-driven methods. Recently, [31] proved that a mixture-of-experts-based model trained with the ERM loss function is more robust to distribution shifts in target recognition than conventional models, e.g., ResNet50, trained with domain generalization strategies, as its architecture better aligns with invariant correlations. This motivates us to design a specific feature extractor based on a mixture-of-experts for cross-working-condition fault diagnosis to adaptively capture discriminative features from data of different domains.
+Based on the above motivations, we propose a novel method for cross-domain fault diagnosis with multi-source domains, incorporating cycle frequency-level adaptive feature extraction and frequency band-level causal localization. In general, our main contributions are summarized as follows:
+A novel causality-inspired view and module for cross-domain fault diagnosis:
+ We propose a frequency band-aware attention module from the frequency band perspective, based on a tokenized Transformer with an entropy-based sparsity regularization, which models the complex patterns within vibration signals to focus on causal frequency bands and suppress spurious frequency bands. 
+A novel interpretable view for cross-domain fault diagnosis:
+ We propose a cyclostationarity-based perspective with spectral correlation density as input feature and aim to localize the fault-related modulation to make the diagnostic procedure transparent.
+A novel adaptive feature extractor for cross-domain fault diagnosis:
+ We design an adaptive feature extraction module based on mixture-of-experts with a multi-view router to extract features along the dimension of cycle frequency with sufficient activation across different samples, following with a prior-knowledge-guided module to focus on robust features.
+Excellent performance:
+ We validate our model on 3 datasets, covering cases of working-condition transfer with distribution gaps ranging from small to large. Remarkably, our model achieves highest overall average accuracy across all datasets, with particular improvement in large-span transfer tasks.
+Related work
+Multi-source domain generalization for fault diagnosis
+Multi-source domain generalization is a rising perspective for addressing the generalization challenge in complex industrial environments of rotational mechanical systems by utilizing data from multiple source domains. Methods based on data augmentation aims to create data of pseudo domain assisted with source data. Typical methods include direct numerical operations, e.g., interpolation [32], and distribution-based combination, e.g., convex combination with Dirichlet-based Mixup [33]. However, the semantics evaluation of the augmented data is a challenging threshold for further investigation. Zheng et al. [34] proposed to use Local Fisher Discriminant Analysis (LFDA) to first obtain the optimal discriminant structure of each source domain, and then maps the general mean subspace onto the Grassmann manifold as a general feature mapping transformation kernel for data from different domains. Explicit feature distribution alignment is a popular regularization view to constrain the model to learn general features from multiple source domains, e.g., MMD loss [35], triplet loss [36] and central loss [37]. To exploit the advantages of each source domains, Zhao et al. [13] trained domain-specific branches for each source domain with a similarity indicator branch to have a comprehensive evaluation. Gao et al. [38] proposed a meta-learning strategy to simulate the generalization scenario of industrial processes with meta-test sub-domains divided from source data to enhance learning general representation.
+Causality-inspired domain generalization for fault diagnosis
+Causality-inspired domain generalization methods can be divided into two groups: feature separation and feature purification. Feature separation methods typically construct a structural causal model (SCM) based on data-generating process, followed by regularization based on do-calculus to extract causal variables [26, 22, 27]. Guo et al. [19] proposed a causal independence and sparse shift network (CIS2N), which samples intervention pairs with the same label from different domain and trains with a causal independence loss based on independent causal mechanisms (ICM) and a sparse shifts loss based on sparse mechanism shifts (SMS). Jia et al. [25] found that solely taking causal factors into account leads to insufficient removal of the spurious correlation. To address this, they proposed a deep causal factorization network (DCFN), which adds a domain classification flow to extract non-causal factors. They [21] later extended it to a causal disentanglement domain generalization model (CDDG) by introducing generative modeling with a reconstruction loss. Another line of work is based on invariant risk minimization (IRM) and its variates, which treats data from each environment individually and learn an optimal classifier on top of a data representation matching all environments [39]. Mo et al. [9976035] proposed a sparsity-constrained invariant risk minimization method (SCIRM), which introduces differentiable sparsity regularizations to learn invariant classifiers across domains with sparse and effective features. The above works can be classified as class-conditioned methods, focusing on the invariant distribution of causal features conditioned on health state. However, Cheng et al. [18] noted that the distribution of causal feature with the same label may shift due to the variation of bearing. Inspired by causal matching [40], they proposed a three-stage based domain generalization fault diagnosis method (LOODG) with an object-conditional domain invariant rule to align features of samples from different working conditions but similar bearing. In addition to regularization constraints-based approaches, Li et. al. [17] proposed Whitening-Net, which employs layer normalization (LN) to stabilize the distribution of individual sample and instance normalization (IN) to eliminate domain specific features. For models established upon feature purification, Wu et al. [4] proposed a adversarial-causal representation learning networks (ACRLN) with spatial mask domain adversarial strategy using gradient reversal layer and auxiliary branch to remove domain specific features. Ma et al. [23] employed gradient truncation with the guidance of binary mask created by domain discriminators to explicitly discard non-causal features at the layer and channel level. Besides, many researches have employed masking mechanism guided by specific loss functions to purify causal features [41, 42]. Despite these advances, most existing domain generalization methods operate directly on the entire signal from an implicit perspective and rely heavily on neural network autonomy, which result in limited transparency and retention of spurious features.
+Methodology
+We proposed a novel model for rolling bearing fault diagnosis under the multi-source domain generalization setting as shown in Figure 1, which consists of three stage: cyclostationarity-enhanced representation generation, cycle frequency-level adaptive feature extraction and frequency band-level causal localization. First, we formulate the multi-source domain generalization problem for rolling bearing fault diagnosis in Section 3.1. In Section 3.2, we implement wavelet packet decomposition on the signal to divide it into patches corresponding to different frequency bands. Within each band, we calculate spectral correlation density to capture cyclostationarity as the input feature. In Section 3.3, we introduce a MoE block with a multi-view router to adaptively extract robust and suitable cycle frequency-level features. In Section 3.4, we introduce frequency band-aware attention with sparsity regularization to localize causal frequency bands and remove non-causal frequency bands through quantifying the importance of frequency bands. Section 3.5 introduces the optimization objective and indicates the entire workflow.
+Figure 1 Framework of our frequency band-aware multi-source domain generalization method for rolling bearing fault diagnosis.
+Problem definition
+The domain generalization problem for rolling bearing fault diagnosis is set to recognize the state of rolling bearing under unseen working conditions by acquiring knowledge from labeled data under multiple working conditions. In this context, let 
+ denotes 
+ source domains with 
+ denoting 
+ labeled data of the 
+-th single source domain, where 
+ and 
+ represent a sample of length 
+ and corresponding label with 
+ categories. Let 
+ denotes 
+ unseen domains with 
+ denoting 
+ unlabeled data of the 
+-th unseen target domain. Due to the distribution shift under different working conditions, the joint distribution 
+ with 
+ and 
+, where 
+, 
+. The goal is to make the full use of source data to develop and optimize a method with good generalization to unseen domains.
+Cyclostationarity-enhanced representation of frequency band
+An effective representation is the core of a data-driven model. To establish a transparently diagnostic model, we choose to feed a representation based on cyclostationarity with spectral correlation density (SCD) which is a high-dimension characteristic involving the ability to reveal fault modulation frequencies.
+Frequency band decomposition with wavelet packets.
+ First, to realize from the perspective of frequency bands, an input univariate time series 
+ is decomposed into 
+ patches 
+ corresponding to wavelet coefficients of spanning from low-frequency to high-frequency bands, where 
+ is the length of wavelet coefficients. With a 
+ level wavelet packet decomposition, the input univariate time series 
+ is decomposed into 
+ patches, and patch 
+ captures the features of analyzed signal in the frequency range of 
+. Each pair of wavelet coefficients at 
+ level 
+ and 
+ are calculated from 
+ through low-pass filter 
+ and high-pass filter 
+ respectively as:
+(1)
+The two filters are constructed with a scaling function 
+ and a selected primary wavelet function 
+ as:
+(2)
+where 
+, which is the scaling function at a finer scale, 
+ is the inner product operator. Note that the two filters are mutually orthogonal with relationship of 
+ so that filtered signals through them are independent and represent low frequency band and high frequency band respectively.
+Cyclostationarity based representation.
+ For the sake of effectiveness and interpretability, we choose spectral correlation density as the input feature as it can effectively characterize the hidden periodic modulation mechanisms caused by different localized faults of rolling bearing through spectral correlation peaks, which provides a direct visualization of fault-induced modulation. As a classical feature of second order cyclostationarity, spectral correlation density is calculated based on the autocorrelation 
+, where 
+ is the time shift. As the periodicity, it can be expanded into a Fourier series with cycle frequencies 
+ as:
+(3)
+where 
+ is defined as the cyclic autocorrelation function of cycle frequency 
+, indicating modulation strength of cycle frequency 
+. Then, it can be calculated by:
+(4)
+Then, the spectral correlation density can be calculated by the Fourier transform of the cyclic autocorrelation function with respect to the time shift 
+ as:
+(5)
+Based on Equation {scd}, with the patches 
+, we obtain the cyclostationarity-enhanced representation 
+, where 
+ denotes the cycle frequency dimension, 
+ denotes the spectral frequency dimension. Each element of 
+ indicates the modulating strength of cycle frequency 
+ on spectral frequency 
+Cycle frequency-level adaptive feature extraction
+Cycle frequency-level feature extraction with MoE of multi-view router.
+ The adaptive feature extractor is designed based on a mixture-of-experts (MoE) block, which is a block of dynamically routed expert networks with each expert implemented by a feed-forward network (FFN). Specifically, input with the cyclostationarity-enhanced representation 
+, the feed forward process is expressed as:
+(6)
+where 
+ denotes layer normalization used to stabilize the instance distribution, 
+ denotes the mixture-of-experts module which is given by
+(7)
+where 
+ is the router of the gate 
+ calculating logits for assigning features 
+ to different experts, 
+ is an operation to only activate the top 
+ experts for each feature, specifically, it sets all other elements in the output vector as zero except for the elements with the largest 
+ logits, 
+ denotes an expert combined with a fully-connected neural network and a nonlinear activation function, 
+ and 
+ are hyperparameters representing the number of experts and the number of selected top experts respectively. 
+For the routing scheme, [31] shows that the cosine router achieves better performance than the linear router in domain generalization tasks because of its ability to mitigate the representation collapse issue. Specifically, the cosine router is calculated through cosine similarity among features and experts. To establish a more reliable routing for the high-dimension input feature 
+, we calculate the routing scores from different dimensions, including spectral frequency (representing cycle frequency-level view), cycle frequency (representing frequency band-level view), and frequency band (representing sample-level view), to obtain a comprehensive and consistent routing. The multi-view routing is expressed as:
+(8)
+where 
+ is a learnable matrix representing experts' feature, 
+ denotes calculating the mean along dimension 
+, 
+ is the projection function for features mapping to a hypersphere, 
+ is a learnable parameter used to adjust the sharpness of the probability distribution to control the routing assignments.
+Auxiliary loss.
+ To avoid the self-reinforcing imbalanced state that a gating network are prone to converge to, where a few experts are more frequently activated than others, followed [31], we optimize an importance loss 
+, calculated with the square of coefficient of variation (CV) of total routing scores of all features to each expert, to encourage balanced routing scores across experts, and a load loss 
+ , calculated with the square of coefficient of variation of total assignment probabilities of all features to each expert, to encourage balanced assignment to ensure the sufficient usage of all experts:
+(10)
+where 
+ is the cumulative distribution function of a Gaussian distribution, 
+ is the 
+-th largest routing score of each feature used as the threshold, and only scores greater than it represent being assigned.
+Cycle frequency-level feature enhancement guided by prior knowledge.
+ With the cycle frequency-level feature extracted by the MoE block, we employ a channel attention module (CAM) along the dimension of cycle frequency to highlight the state-related cycle frequencies and enhance the corresponding features. The distribution of the fault-related frequencies satisfies a sparsity property: the fault-related characteristic frequency and its harmonics are sparsely distributed at integer multiples of the fundamental frequency, while most other frequencies are irrelevant and redundant for diagnosis. However, the conventional Sigmoid layer produces smooth attention scores which is insufficient for such sparsity. Inspired by [43], we redesign the channel attention with two branches: a squared ReLU-based branch that suppresses unrelated cycle frequencies with negative scores and propagate the most useful information flow forward, and a conventional Sigmoid-based branch that ensures sufficient information flow and keep the model from falling into local optima during training. The process is expressed as:
+(11)
+where 
+ denotes the maximum operation, 
+ and 
+ are the parameter of fully connected layers.
+Although the above design can effectively highlight informative cycle frequencies, we observe a performance degradation when transferring across large span from high-speed to low-speed conditions. Through analyzing the learned frequency scores, we find out that fault impacts under high-speed conditions can trigger strong high-order harmonics, which provide a simple solution for the model. However, these high-order harmonics become weaker under low-speed conditions and lead the model to mistakenly recognize fault states as normal. To address this issue, we introduce a regularization term on scores produced by the channel attention module to encourage the model to pay more attention on low cycle frequencies while still retaining the ability to learn the discriminative feature from high cycle frequencies. The regularization term is calculated by:
+(12)
+where 
+ denotes the average score of the 
+-th group cycle frequencies. This group-wise design is set to meet the sparsity. We turn the item of 
+ to zero to control the scale of 
+Then, a global average pooling layer (GAP) is used to aggregate each cycle frequency as:
+(13)
+In this way, we obtain the cycle frequency-level feature 
+ for each frequency band.
+Frequency band-level causal localization
+From the perspective of considering frequency bands associated with environments as confounders, a frequency band-aware module is proposed to localize fault-related frequency bands and suppress the influence of environment-related frequency bands.
+Localization with self-attention.
+ To implement classification with the extracted features of frequency bands, inspired by prior work on modeling multiple sub-information in the classification of time series [44], we adopt a tokenized Transformer based on the self-attention mechanism of frequency bands. The tokenized Transformer tends to be popular in computer vision and time series as it has been proved in [44] that it can reduce the complexity of developing a good classifier as it explicitly models the correlation among input elements and lowers the class-conditioned entropy, which measures the uncertainty of features given that the class label is known. This means that employing a class token to integrate features of causal frequency band through modeling their correlations lowers the difficulty of classification compared to directly feeding raw features of causal frequency band into a classifier. Additionally, the attention mechanism helps generate the relation intensity graphs to visualize the importance of each frequency band. Here, we first employ a learnable class token 
+ to aggregate the features of causal frequency bands.
+Specifically, we concatenate the class token with the features 
+ to yield a tokenized bag 
+ and aggregate fault-related information to update 
+ as:
+(14)
+where 
+ is the parameter of a fully connected layer used to fuse the output of multiple attention heads, 
+ denotes a self-attention head expressed as:
+(15)
+where 
+, 
+ and 
+ are the parameters of the transformation layers. Nystrom attention [45] is used here to reduce the complexity of computation.
+After the Transformer block, we only pass the class token to the classifier to make a prediction. To guide the learning of fault-related features and causal frequency band, the cross-entropy loss is used to perform classification with the prediction of classifier 
+ as:
+(16)
+where 
+ is the class label, 
+ is the batch size.
+Sparsity regularization for causal frequency bands.
+ Beyond the tokenized Transformer, some spurious frequency bands may persist. Considering the difficulty in convergence and tuning of gradient-related methods, e.g., gradient reversal, and the obstacle of obtaining accurate domain labels, we purify causal frequency bands from another perspective, sparsity. Prior studies [46, 47] have proven that the number of frequency bands of health state is much fewer than those related to environments, and [48] has proven that causal features are much sparser than spurious features. Moreover, some studies in causal representation learning have shown that applying sparsity regularization on the adjacency matrix of features can help prevent the model from overfitting and falling into spurious solutions [49]. Motivated by these, we introduce an entropy-based sparsity regularization on the attention scores to encourage such a sparse structure in which only a few frequency bands carry significant values while the rest remain close to zero. Because a lower entropy indicates a more concentrated attention distribution. The sparsity regularization is expressed as:
+(17)
+where 
+ denotes the probability distribution of attention.
+Training and inference
+Beyond the above regularizations, the overall optimization objective is summarized as:
+(18)
+where 
+, 
+ and 
+ are the balancing parameters.
+The workflow of the proposed method is presented in Algorithm {workflow}. 
+Experiments
+Dataset Description
+We study the performance of the proposed model with 3 datasets as follows, and their key attributes are summarized in Table 1, the test rigs are shown in Figure 2:
+Case Western Reserve University Bearing Dataset [50].
+ This is a vibration signal dataset that contains vibration signals collected by acceleration sensors from 6205-type ball bearings of 4 individual health states in different severities under 4 working conditions. The 4 individual health states include normal (N), inner race fault (IR), outer race fault (OR), and ball fault (B). These faults are single-point faults produced through electro-discharge machining with fault diameters of 7 mils, 14 mils, and 21 mils. The vibration signals of each health state and each working condition are collected with a 12 kHz sampling frequency.
+Paderborn University Bearing Dataset [51].
+ This is a vibration signal dataset that contains vibration signals collected by acceleration sensors from 6203-type ball bearings of 4 health states in different severities under 4 working conditions. In this study, we focus on 3 individual health states: normal (N), inner race fault (IR), and outer race fault (OR). These faults are single-point faults generated through life-accelerated degradation processes (e.g., pitting and indentations) with fault diameters ranging from less than 2 mm to more than 4.5 mm. The vibration signals of each health state and each working condition are collected with a 64 kHz sampling frequency. In our experiments, to preserve enough revolutions for each sample, we downsample the data to 12kHz.
+Harbin Institute of Technology Bearing Dataset [52].
+ This is a vibration signal dataset that contains vibration signals collected by acceleration sensors from ball bearings of 3 individual health states on a real aeroengine under 25 working conditions. The 3 individual health states include normal (N), inner race fault (IR), and outer race fault (OR). These faults are produced through wire cutting with a fault depth of 0.5 mm and a fault length of 0.5 mm. The vibration signals of each health state and each working condition are collected with a 25 kHz sampling frequency.
+Table 1 Detailed configuration of experiment data
+Dataset
+Bearing
+Case Index
+Speed (rpm)
+Load
+Fault
+CWRU
+6205
+C1
+1797
+0-HP
+N, IR, OR, B
+C2
+1772
+1-HP
+C3
+1750
+2-HP
+C4
+1730
+3-HP
+PU
+6203
+P1
+1500
+1000-N
+N, IR, OR
+P2
+900
+1000-N
+P3
+1500
+1000-N
+P4
+1500
+400-N
+HIT
+15 balls
+H1
+1500-2500
+0-N
+N, IR, OR
+30-mm inner
+H2
+3000-3700
+0-N
+65-mm outer
+H3
+3800-4100
+0-N
+7.5 mm ball
+H4
+4200-4500
+0-N
+Figure 2 Test rigs of each dataset. (a) CWRU dataset. (b) PU dataset. (c) HIT dataset.
+Implementation details
+In our experiments, each sample’s vibration data is first resampled using angular resampling, following [53], to align signals such that each revolution contains an equal number of sampling points within each sample. Specifically, each sample consists of 2048 sampling points, corresponding to 4 revolutions with 512 points per revolution. The Haar wavelet is selected as an example for experiments. For each sub-signal of frequency band, we set the number of cycle frequency as 128. For the MoE block, we set 6 experts, where each expert consists of 2 MLP layers (256 hidden neurons and GELU activation) with a learnable similarity matrix of size 
+. For each input embedding, the multi-view router selects the TOP-1 expert index out of 6 and routes it to the corresponding one. The multi-head attention mechanism is configured with 8 heads.
+In the training process, an AdamW optimizer is adopted with a weight decay of 
+ and an initial learning rate of 
+, which decays with a cosine annealing schedule throughout the entire training process. The balancing parameters 
+ follows a cosine-based growth schedule from 0.01 to 1.0 during training, 
+ follows a cosine-based growth schedule from 0.01 to 0.1 during training, and 
+ is set to be a fixed value of 0.01. For 
+,the cycle frequencies are divided into 16 groups, with each group consists of 8 adjacent cycle frequencies. Training in the following experiments is performed over 300 iterations with a batch size of 128. All experiments are conducted with Pytorch in Python on an NVIDIA GeForce RTX 2080 Ti GPU.
+Performance Comparison Experiments
+We first test our method in 3 cases with a gradually increasing level of difficulty. In these case studies, we compare our model with the recent representative baseline methods of multi-source domain generalization for bearing fault diagnosis: WhiteningNet [17], DGNIS [13], CDDG [21], ACRLN [4], CIMSDG [23]. In addition, we select an ensemble method using 19 traditional multi-domain features [54] as the basic baseline to evaluate the difficulty of tasks. To ensure the reliability and effectiveness of the experiment results, we conduct experiments for each method five times for each task. The diagnosis performance is indicated with five performance indicators, which are accuracy, fault recall, fault precision, normal recall, and normal precision, defined as:
+(19)
+Case 1 (Cross-domain transfer on CWRU dataset):
+ With 4 distinct working conditions, we establish 4 different cross-domain tasks. The data are balanced among 4 health states, with 300 samples for each health state in each source domain and 300 samples for each health state in each test domain.
+The experimental results of our method, along with the baseline methods, are presented in Table 2 and Figure 3. Additionally, the comparison results of the detailed performance on each sub-dataset for C2+C3+C4→C1 are shown in Figure 4. Our model achieves the highest overall average accuracy 99.16%. It can be observed that our model and the comparison methods all perform well with only a small performance gap among them. It is because the vibration data in the CWRU dataset has already been denoised and the distribution gap is small in this case, thus, the improvement from adaptive feature extraction with causal localization is not obvious as in the following cases.
+Table 2 Performance under different working conditions in Case 1
+Models
+Fault diagnostic average accuracy (%)
+C2+C3+C4→C1
+C1+C3+C4→C2
+C1+C2+C4→C3
+C1+C2+C3→C4
+Accuracy
+Base
+94.39 
+ 0.06
+99.31 
+ 0.05
+97.91 
+ 0.00
+90.75 
+ 0.05
+95.59
+WhiteningNet
+91.68 
+ 2.01
+86.20 
+ 1.50
+95.59 
+ 1.96
+93.61 
+ 0.91
+91.77
+DGNIS
+83.34 
+ 2.09
+95.39 
+ 0.50
+92.84 
+ 3.16
+96.66 
+ 1.25
+92.06
+CDDG
+97.72 
+ 2.61
+97.12 
+ 1.61
+99.82 
+ 0.13
+92.54 
+ 0.46
+96.80
+ACRLN
+93.55 
+ 3.27
+99.48 
+ 0.22
+99.16 
+ 0.44
+97.29 
+ 1.54
+97.37
+CIMSDG
+95.71 
+ 1.54
+99.97 
+ 0.05
+99.97 
+ 0.05
+99.58 
+ 0.39
+98.81
+Ours
+98.68 
+ 0.93
+99.62 
+ 0.34
+99.90 
+ 0.15
+99.12 
+ 0.26
+ 99.33 
+Figure 3 Performance comprehensive comparison in Case 1. (a) C2+C3+C4→C1. (b) C1+C3+C4→C2. (c) C1+C2+C4→C3. (d) C1+C2+C3→C4.
+Figure 4 Detailed performance on each sub-dataset of case 1: C2+C3+C4→C1. (a) WhiteningNet. (b) DGNIS. (c) CDDG. (d) ACRLN. (e) CIMSDG. (f) Ours.
+Case 2 (Cross-domain transfer from real fault to real fault on PU dataset):
+ With 4 distinct working conditions, we establish 4 different cross-domain tasks. The experimental protocol employs 9 sub-datasets, including 3 normal sub-datasets (K001, K002, K003), 3 inner race fault sub-datasets (KI14, KI16, KI17), and 3 outer race fault sub-datasets (KA04, KA15, KA16). The data are balanced among 3 health states, with 1200 samples for each health state in each source domain and 1200 samples for each health state in each test domain. 
+The experimental results of our method, along with the baseline methods, are presented in Table 3 and Figure 5. Additionally, the comparison results of the detailed performance on each sub-dataset for P1+P3+P4→P2 are shown in Figure 6. Our model achieves high accuracy among all cases and the highest overall average accuracy 97.79%. In the most challenging case (P1+P3+P4→P2), our model recognizes better in each sub-dataset and reaches a total accuracy of 94.25% with a 21.84% improvement over the best compared method. We also observe that our model has an average accuracy of 72% on K15, since the damage type of outer race fault in KA15 (indentations) is different from K04 and K16 (pitting). Although diagnosis under such difference is not the focus of this paper, while our model can still handle it to a certain extent.
+Table 3 Performance under different working conditions in Case 2
+Models
+Fault diagnostic average accuracy (%)
+P2+P3+P4→P1
+P1+P3+P4→P2
+P1+P2+P4→P3
+P1+P2+P3→P4
+Average
+Base
+94.86 
+ 0.08
+61.99 
+ 0.55
+93.59 
+ 0.07
+61.08 
+ 0.22
+77.88
+WhiteningNet
+99.61 
+ 0.15
+62.78 
+ 4.29
+99.57 
+ 0.16
+83.01 
+ 1.32
+86.24
+DGNIS
+99.94 
+ 0.00
+70.53 
+ 3.60
+99.88 
+ 0.03
+84.47 
+ 1.24
+88.71
+CDDG
+99.84 
+ 0.07
+64.18 
+ 1.28
+99.61 
+ 0.14
+83.79 
+ 0.67
+86.86
+ACRLN
+99.88 
+ 0.07
+56.56 
+ 2.28
+99.83 
+ 0.19
+92.87 
+ 1.10
+87.29
+CIMSDG
+100.00 
+ 0.00
+72.41 
+ 1.39
+100.00 
+ 0.00
+88.32 
+ 1.42
+90.18
+Ours
+99.90 
+ 0.12
+94.25 
+ 1.72
+99.91 
+ 0.07
+97.11 
+ 0.41
+ 97.79 
+Figure 5 Performance comprehensive comparison in Case 2. (a) P2+P3+P4→P1. (b) P1+P3+P4→P2. (c) P1+P2+P4→P3. (d) P1+P2+P3→P4.
+Figure 6 Detailed performance on each sub-dataset of case 2: P1+P3+P4→P2. (a) WhiteningNet. (b) DGNIS. (c) CDDG. (d) ACRLN. (e) CIMSDG. (f) Ours.
+Case 3 (Cross-domain transfer from artificial fault to artificial fault on HIT dataset):
+ This case is designed to evaluate the transfer performance under large-span working conditions. We establish 4 different cross-domain tasks. The data are balanced among 3 health states, with 270 samples for each health state in each source domain and 270 samples for each health state in each test domain. 
+The experimental results of our model, along with the baseline methods, are presented in Table 4 and Figure 7. Additionally, the comparison results of the detailed performance on each sub-dataset for H2+H3+H4→H1 are shown in Figure 8. Our model achieves high accuracy among all cases and the highest overall average accuracy 97.95% among comparison methods. In the most challenging case (H2+H3+H4→H1), our model recognizes outer race fault under working condition of low speed (1500-O) and reaches a total accuracy of 96.79% with a 6.91% improvement over the best compared method. This demonstrates that, even in the case of large-span transferring from high-speed condition to low-speed condition, our model can handle the weak fault characteristics and maintain performance in recognition of normal states.
+Table 4 Performance under different working conditions in Case 3
+Models
+Fault diagnostic average accuracy (%)
+H2+H3+H4→H1
+H1+H3+H4→H2
+H1+H2+H4→H3
+H1+H2+H3→H4
+Average
+Base
+66.79 
+ 0.20
+81.73 
+ 0.40
+92.92 
+ 0.25
+83.91 
+ 0.11
+81.34
+WhiteningNet
+48.54 
+ 5.26
+83.17 
+ 0.65
+96.21 
+ 2.31
+84.28 
+ 2.34
+78.05
+DGNIS
+61.16 
+ 3.17
+83.29 
+ 1.23
+97.24 
+ 0.68
+85.88 
+ 1.96
+81.89
+CDDG
+70.64 
+ 0.94
+82.63 
+ 1.36
+97.45 
+ 0.15
+85.84 
+ 1.53
+84.14
+ACRLN
+89.88 
+ 3.06
+97.53 
+ 1.05
+99.47 
+ 0.36
+96.46 
+ 3.87
+95.84
+CIMSDG
+63.09 
+ 2.85
+98.72 
+ 0.73
+100.00 
+ 0.00
+97.99 
+ 1.24
+89.95
+Ours
+96.79 
+ 0.97
+97.12 
+ 0.42
+99.84 
+ 0.23
+98.03 
+ 0.27
+ 97.95 
+Figure 7 Performance comprehensive comparison in Case 3. (a) H2+H3+H4→H1. (b) H1+H3+H4→H2. (c) H1+H2+H4→H3. (d) H1+H2+H3→H4.
+Figure 8 Detailed performance on each sub-dataset of case 3: H2+H3+H4→H1. (a) WhiteningNet. (b) DGNIS. (c) CDDG. (d) ACRLN. (e) CIMSDG. (f) Ours.
+Analysis
+In this section, we validate the improvements of the proposed method. For evaluation, we take the most challenging transfer scenarios from each of the three cases (C2+C3+C4→C1, P1+P3+P4→P2 and H2+H3+H4→H1) as examples, and conduct all ablation experiments for each method five times to ensure the effectiveness.
+Visualization of frequency band and cycle frequency.
+ The frequency band-level decision making mechanism and cycle frequency-level feature extraction make the proposed method interpretable. Leveraging these mechanisms, we can obtain attention maps that highlight the model’s focus in diagnosis. The attention maps corresponding to three health states (normal, inner race fault, outer race fault) in cases (C2+C3+C4→C1, P1+P3+P4→P2, and H2+H3+H4→H1) are visualized in Figure 9. It can be observed that the proposed method can effectively localize the fault-related frequency band. At the cycle frequency level, the proposed model highlights the key cycle frequencies for fault states, while the attention for normal states is relatively uniform. This shows that the proposed method can purify fault-related features and reveal the fault modulation.
+Figure 9 Exemplary attention maps of three health states (columns) in three datasets (rows).
+Ablation: Prior knowledge's guidance in cycle frequency-level attention.
+ The proposed prior-knowledge-guided channel attention module is used to reduce noisy representative features and redundant information while retaining the informative and relevant ones. Table 5 shows the ablation results that our designed module achieves the highest accuracy while the traditional one with Sigmoid obtains the lowest one. Figure 10 illustrates the detailed performance comparison for the case H2+H3+H4→H1 and an example showing the different distributions of cycle frequency attention scores across the three methods. For outer race fault under low-speed condition of 1500 rpm, our method achieves a remarkable improvement with an average accuracy of 86% and a best-case performance of 97%. In contrast, the Sigmoid-based approach shows unstable performance with an average accuracy of 51%, while the Fusion-based approach almost fails to recognize the fault in this case with an average accuracy of 23%. Furthermore, the proposed method also achieves more accurate and stable recognition for other states across other working conditions. From Figure 10(f), it can be observed that our method guides the model to focus more on the low cycle frequency range with a sparse attention, which helps keep the model from falling into trivial solution when transferring from high-speed to low-speed conditions. These demonstrates that prior-knowledge-guided channel attention module makes the informative context be fully and correctly exploited while suppressing the redundant features, resulting in a clear performance boost.
+Table 5 Ablation of Prior knowledge's guidance in cycle frequency-level attention
+Prior knowledge's guidance
+Sigmoid
+Fusion
+Ours
+Accuracy
+(%)
+Case 1: C2+C3+C4→C1
+97.24 
+ 2.49
+98.12 
+ 2.22
+98.68 
+ 1.14
+Case 2: P1+P3+P4→P2
+92.12 
+ 2.78
+92.61 
+ 1.48
+94.25 
+ 2.11
+Case 3: H2+H3+H4→H1
+84.67 
+ 6.04
+90.16 
+ 4.59
+96.74 
+ 0.97
+Figure 10 Ablation of Prior knowledge's guidance in cycle frequency-level attention: The first row illustrates the detailed performance of three methods on each sub-dataset of case 3: H2+H3+H4→H1 with (a) Sigmoid, (b) Fusion, (c) Ours. The second row provides an example of an outer race fault with (d) raw vibration signal, (e) corresponding spectral correlation density of the first frequency band after decomposition, (f) distributions of cycle frequency-level attention scores generated by three methods.
+Ablation: sparsity regularization in frequency band-level attention.
+ Table 6 shows the results that the entropy-based sparsity regularization particularly improves the diagnostic accuracy with 3.65% in C2+C3+C4→C1, 10.95% in P1+P3+P4→P2, and 2.17% in H2+H3+H4→H1. We observe that the sparsity regularization yields a particularly significant improvement in P1+P3+P4→P2, where the source domains are highly similar since all source data are collected under the same operating speed of 1500 rpm. Such similarity makes the model more prone to falling into trivial solutions, while the sparsity regularization effectively prevents such degeneration. This demonstrates that the sparsity regularization on the attention map of frequency bands can boost the performance.
+Table 6 Ablation of sparsity regularization in frequency band-level attention
+Sparsity regularization
+w/o sparsity
+w/ sparsity
+Accuracy
+(%)
+Case 1: C2+C3+C4→C1
+95.03 
+ 2.94
+98.68 
+ 1.14
+Case 2: P1+P3+P4→P2
+83.30 
+ 8.34
+94.25 
+ 2.11
+Case 3: H2+H3+H4→H1
+94.57 
+ 2.6
+96.74 
+ 0.97
+Ablation: mixture-of-experts with multi-view router.
+ Table 7 shows the comparison of backbones with FFN, MoE without a multi-view router, and MoE with a multi-view router, all of which employ the same FFN architecture for fairness. MoE with a multi-view router outperforms both methods in three cases. We observe that FFN performs well in the simple case (Case 1: C2+C3+C4→C1), where data distributions are similar, while corrupts in more challenging cases. MoE with a multi-view router achieves higher accuracy and stability than MoE without a multi-view router, as it enhances the consistency of feature routing within individual samples, which enables each expert to model more semantically coherent features and improve the quality of learned representations. At the same time, this still preserves the diversity of feature activation across different patterns.
+Table 7 Ablation of backbones
+Backbone
+FFN
+MoE w/o 
+multi-view router
+MoE w/
+Accuracy
+(%)
+Case 1: C2+C3+C4→C1
+95.49 
+ 1.36
+96.07 
+ 2.59
+98.68 
+ 1.14
+Case 2: P1+P3+P4→P2
+69.96 
+ 4.59
+91.74 
+ 1.85
+94.25 
+ 2.11
+Case 3: H2+H3+H4→H1
+80.12 
+ 2.93
+92.34 
+ 2.40
+96.74 
+ 0.97
+Expert selection.
+ To further understand the expert selection across different health states and different working conditions, we record the router selection corresponding to the top 10% salient features within the dominant band of each sample, and calculate the expert routing ratio for each state-domain combination. The distribution of routing ratios for P1+P3+P4→P2 are visualized as an example in Figure 11. We observed that salient features of different samples are extracted by different experts, and experts show specialization for samples of different health states and different working conditions. In detail, we see: (1) 
+adaptivity across working conditions:
+ the distributions and emphasis of expert's routing ratio vary across different working conditions, where similar working conditions (Domain 1 and Domain 3) exhibit similar routing distribution, whereas distinct working conditions (Domain 2 and Domain 4) present markedly different expert routing distributions and emphasis, which indicates the model's adaptive routing under different working conditions; (2) 
+expert specialization:
+ inner race fault is primarily attended by expert 3 and 6, outer race fault is mainly attended by expert 4, 5 and 6, while for the normal state, the expert assignments are more dispersed under different working conditions. The above analysis indicates that the MoE with a multi-view router extracts features for different samples adaptively.
+Figure 11 Distribution of routing ratios on three health states and four domains of case2: P1+P3+P4→P2
+Conclusion
+In this work, we propose a novel rolling bearing fault diagnosis method under the cross working condition setting. The proposed approach, developed from the perspective of causality purification in a frequency band aware manner, consists of three stages: cyclostationrity-enhanced representation generation, cycle frequency-level adaptive feature extraction via a mixture-of-experts (MoE) block with a multi-view router and a prior-knowledge-guided feature enhancer, and frequency band-level causal localization using a tokenized Transformer with an entropy-based sparsity regularization. Experiments demonstrate that the proposed model achieves good generalization performance in cases of working-condition transfer with distribution gaps ranging from small to large. In addition, the model provides good interpretability in the view of frequency bands and cycle frequency. As for future directions, it is necessary to investigate in more efficient and transparent feature extraction mechanisms to facilitate the development of data-driven rolling bearing fault diagnosis algorithms in real-world applications.
+Acknowledgments
+This work was supported in part by the Shanghai Pudong New Area Science and Technology Development Fund Public Welfare Scientific Research Project grant PKJ2025C08.
+Author contributions
+Youlong Zhang: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Validation, Visualization, Writing - original draft, Writing - review and editing. Shan Jiang: Resources, Supervision, Writing - review and editing. Wenrui Wang: Resources, Supervision. Jianfeng Yu: Supervision. Fanglin Lu: Supervision. Bo Wu: Funding acquisition, Supervision, Writing - review and editing
+Reference
+Wen, Long and Li, Xinyu and Gao, Liang and Zhang, Yuyan. 
+A New Convolutional Neural Network-Based Data-Driven Fault Diagnosis Method. 
+Ieee Transactions on Industrial Electronics, 
+65, 
+(7): 
+5990-5998, 
+2018.
+Shao, Haidong and Jiang, Hongkai and Zhao, Huiwei and Wang, Fuan. 
+A novel deep autoencoder feature learning method for rotating machinery fault diagnosis. 
+Mechanical Systems and Signal Processing, 
+95, 
+187-204, 
+2017.
+Chen, Zhuyun and Li, Weihua. 
+Multisensor Feature Fusion for Bearing Fault Diagnosis Using Sparse Autoencoder and Deep Belief Network. 
+Ieee Transactions on Instrumentation and Measurement, 
+66, 
+(7): 
+1693-1702, 
+2017.
+Wu, Fei and Xiang, Zhuohang and Xiao, Dengyu and Hao, Yaodong and Qin, Yi and Pu, Huayan and Luo, Jun. 
+Adversarial-Causal Representation Learning Networks for Machine fault diagnosis under unseen conditions based on vibration and acoustic signals. 
+Engineering Applications of Artificial Intelligence, 
+139, 
+2025.
+Wang, Jindong and Lan, Cuiling and Liu, Chang and Ouyang, Yidong and Qin, Tao and Lu, Wang and Chen, Yiqiang and Zeng, Wenjun and Yu, Philip S.. 
+Generalizing to Unseen Domains: A Survey on Domain Generalization. 
+IEEE Trans. on Knowl. and Data Eng., 
+35, 
+(8): 
+8052–8072, 
+2023.
+Li, Qi and Chen, Liang and Kong, Lin and Wang, Dong and Xia, Min and Shen, Changqing. 
+Cross-domain augmentation diagnosis: An adversarial domain-augmented generalization method for fault diagnosis under unseen working conditions. 
+Reliability Engineering and System Safety, 
+234, 
+2023.
+Shi, Yaowei and Deng, Aidong and Deng, Minqiang and Xu, Meng and Liu, Yang and Ding, Xue and Bian, Wenbin. 
+Domain augmentation generalization network for real-time fault diagnosis under unseen working conditions. 
+Reliability Engineering and System Safety, 
+235, 
+2023.
+Ding, Yifei and Jia, Minping and Cao, Yudong and Ding, Peng and Zhao, Xiaoli and Lee, Chi-Guhn. 
+Domain generalization via adversarial out-domain augmentation for remaining useful life prediction of bearings under unseen conditions. 
+Knowledge-Based Systems, 
+261, 
+2023.
+Shi, Zhen and Chen, Jinglong and Zi, Yanyang and Cao, Kuan and Li, Biao. 
+Semi-physical simulation-driven contrastive decoupling net for intelligent fault diagnosis of unseen machines under varying speed. 
+Measurement Science and Technology, 
+35, 
+(7): 
+2024.
+Pang, Bin and Liu, Qiuhai and Xu, Zhenli and Sun, Zhenduo and Hao, Ziyang and Song, Ziqi. 
+Fault vibration model driven fault-aware domain generalization framework for bearing fault diagnosis. 
+Advanced Engineering Informatics, 
+62, 
+2024.
+Guowei Zhang and Xianguang Kong and Hongbo Ma and Qibin Wang and Jingli Du and Jinrui Wang. 
+Dual disentanglement domain generalization method for rotating Machinery fault diagnosis. 
+Mechanical Systems and Signal Processing, 
+228, 
+112460, 
+2025.
+Xu, Kaixiong and Li, Shuang and Xu, Shuiqing and Hu, Youqiang and Mao, Yongfang and Chai, Yi. 
+Mutual Information-Guided Domain-Shared Feature Learning for Bearing Fault Diagnosis Under Unknown Conditions. 
+IEEE Transactions on Instrumentation and Measurement, 
+74, 
+1-12, 
+2025.
+Zhao, Chao and Shen, Weiming. 
+A domain generalization network combing invariance and specificity towards real-time intelligent fault diagnosis. 
+Mechanical Systems and Signal Processing, 
+173, 
+2022.
+Xiao, Yiming and Shao, Haidong and Wang, Jie and Cai, Baoping and Liu, Bin. 
+Domain-augmented meta ensemble learning for mechanical fault diagnosis from heterogeneous source domains to unseen target domains. 
+Expert Systems with Applications, 
+259, 
+2025.
+Yue, Fengyu and Wang, Yong and Ieee. 
+Cross-Domain Fault Diagnosis via Meta-Learning-Based Domain Generalization. 
+1826-1832, 
+2022.
+Gao, Yu and Qi, Jin and Sun, Ying and Hu, Xiaoxuan and Dong, Zhenjiang and Sun, Yanfei. 
+Industrial process fault diagnosis based on feature enhanced meta-learning toward domain scenarios. 
+Knowledge-Based Systems, 
+289, 
+2024.
+Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Zhijie. 
+Whitening-Net: A Generalized Network to Diagnose the Faults Among Different Machines and Conditions. 
+Ieee Transactions on Neural Networks and Learning Systems, 
+33, 
+(10): 
+5845-5858, 
+2022.
+Cheng, Liu and Kong, Xiangwei and Zhang, Yongchao and Zhu, Yunpeng and Qi, Haochen and Zhang, Jiqiang. 
+A novel causal feature learning-based domain generalization framework for bearing fault diagnosis with a mixture of data from multiple working conditions and machines. 
+Advanced Engineering Informatics, 
+62, 
+2024.
+Guo, Chang and Shang, Zuogang and Ren, Jiaxin and Zhao, Zhibin and Ding, Baoqing and Wang, Shibin and Chen, Xuefeng. 
+CIS2N: Causal independence and sparse shift network for rotating machinery fault diagnosis in unseen domains. 
+Reliability Engineering and System Safety, 
+251, 
+2024.
+Guo, Qun and Li, Gang and Lin, Jun. 
+A Domain Generalization Network Exploiting Causal Representations and Non-Causal Representations for Three-Phase Converter Fault Diagnosis. 
+Ieee Transactions on Instrumentation and Measurement, 
+73, 
+2024.
+Jia, Linshan and Chow, Tommy W. S. and Yuan, Yixuan. 
+Causal Disentanglement Domain Generalization for time-series signal fault diagnosis. 
+Neural Networks, 
+172, 
+2024.
+Zhu, Yumeng and Zi, Yanyang and Li, Jie and Xu, Jing. 
+PhysiCausalNet: A Causal- and Physics-Driven Domain Generalization Network for Cross-Machine Fault Diagnosis of Unseen Domain. 
+Ieee Transactions on Industrial Informatics, 
+20, 
+(6): 
+8488-8498, 
+2024.
+Ma, Hongbo and Wei, Jiacheng and Zhang, Guowei and Kong, Xianguang and Du, Jingli. 
+Causality-inspired multi-source domain generalization method for intelligent fault diagnosis under unknown operating conditions. 
+Reliability Engineering and System Safety, 
+252, 
+2024.
+Guo, Chaochao and Sun, Youchao and Yu, Rourou and Ren, Xinxin. 
+Deep Causal Disentanglement Network With Domain Generalization for Cross-Machine Bearing Fault Diagnosis. 
+Ieee Transactions on Instrumentation and Measurement, 
+74, 
+2025.
+Jia, Sixiang and Li, Yongbo and Wang, Xinyue and Sun, Dingyi and Deng, Zichen. 
+Deep causal factorization network: A novel domain generalization method for cross-machine bearing fault diagnosis. 
+Mechanical Systems and Signal Processing, 
+192, 
+2023.
+Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Haijun and Li, Chen. 
+Causal Consistency Network: A Collaborative Multimachine Generalization Method for Bearing Fault Diagnosis. 
+Ieee Transactions on Industrial Informatics, 
+19, 
+(4): 
+5915-5924, 
+2023.
+Li, Jie and Wang, Yu and Zi, Yanyang and Zhang, Haijun and Wan, Zhiguo. 
+Causal Disentanglement: A Generalized Bearing Fault Diagnostic Framework in Continuous Degradation Mode. 
+Ieee Transactions on Neural Networks and Learning Systems, 
+34, 
+(9): 
+6250-6262, 
+2023.
+Liu, Yajing and Zhou, Shijun and Liu, Xiyao and Hao, Chunhui and Fan, Baojie and Tian, Jiandong. 
+Unbiased Faster R-CNN for Single-source Domain Generalized Object Detection. 
+2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 
+28838-28847, 
+2024.
+Xu, Mingjun and Qin, Lingyun and Chen, Weijie and Pu, Shiliang and Zhang, Lei. 
+Multi-view Adversarial Discriminator: Mine the Non-causal Factors for Object Detection in Unseen Domains. 
+arXiv:2304.02950, 
+2023.
+Antoni, J.. 
+Cyclostationarity by examples. 
+Mechanical Systems and Signal Processing, 
+23, 
+(4): 
+987-1036, 
+2009.
+Li, Bo and Shen, Yifei and Yang, Jingkang and Wang, Yezhen and Ren, Jiawei and Che, Tong and Zhang, Jun and Liu, Ziwei. 
+Sparse Mixture-of-Experts are Domain Generalizable Learners. 
+arXiv:2206.04046, 
+2022.
+Xiang Li and Wei Zhang and Hui Ma and Zhong Luo and Xu Li. 
+Domain generalization in rotating machinery fault diagnostics using deep neural networks. 
+Neurocomputing, 
+403, 
+409-420, 
+2020.
+Qi Li and Liang Chen and Lin Kong and Dong Wang and Min Xia and Changqing Shen. 
+Cross-domain augmentation diagnosis: An adversarial domain-augmented generalization method for fault diagnosis under unseen working conditions. 
+Reliability Engineering and System Safety, 
+234, 
+109171, 
+2023.
+Zheng, Huailiang and Wang, Rixin and Yang, Yuantao and Li, Yuqing and Xu, Minqiang. 
+Intelligent Fault Identification Based on Multisource Domain Generalization Towards Actual Diagnosis Scenario. 
+IEEE Transactions on Industrial Electronics, 
+67, 
+(2): 
+1293-1304, 
+2020.
+Ruohui Hu and Min Zhang and Xiangyin Meng and Zhuang Kang. 
+Deep subdomain generalisation network for health monitoring of high-speed train brake pads. 
+Engineering Applications of Artificial Intelligence, 
+113, 
+104896, 
+2022.
+Han, Te and Li, Yan-Fu and Qian, Min. 
+A Hybrid Generalization Network for Intelligent Fault Diagnosis of Rotating Machinery Under Unseen Working Conditions. 
+IEEE Transactions on Instrumentation and Measurement, 
+70, 
+1-11, 
+2021.
+Wang, Bin and Wen, Long and Li, Xinyu and Gao, Liang. 
+Adaptive Class Center Generalization Network: A Sparse Domain-Regressive Framework for Bearing Fault Diagnosis Under Unknown Working Conditions. 
+IEEE Transactions on Instrumentation and Measurement, 
+72, 
+1-11, 
+2023.
+Yu Gao and Jin Qi and Ying Sun and Xiaoxuan Hu and Zhenjiang Dong and Yanfei Sun. 
+Industrial process fault diagnosis based on feature enhanced meta-learning toward domain generalization scenarios. 
+Knowledge-Based Systems, 
+289, 
+111506, 
+2024.
+{Arjovsky. 
+arXiv e-prints, 
+arXiv:1907.02893, 
+{Mahajan. 
+arXiv e-prints, 
+arXiv:2006.07500, 
+Sun, Zhizheng and Zhu, Xiaomin and Liu, Jian and Zhao, Xiangkun and Wang, Hanxi and Zhang, Runtong. 
+A Causality-Inspired Capsule Network for Domain Generalization in Cross-Domain Fault Diagnosis of Rolling Bearing. 
+IEEE Transactions on Instrumentation and Measurement, 
+74, 
+1-10, 
+2025.
+Xie, Yining and Yang, Guojun and Chen, Hongzhan and Zhao, Zhichao and Leng, Xin. 
+Invariant Feature Purification Method for Domain Generalization of Rolling Bearing Fault Diagnosis. 
+IEEE Transactions on Instrumentation and Measurement, 
+74, 
+1-11, 
+2025.
+Zhou, Shihao and Chen, Duosheng and Pan, Jinshan and Shi, Jinglei and Yang, Jufeng. 
+Adapt or Perish: Adaptive Sparse Transformer with Attentive Feature Refinement for Image Restoration. 
+2952-2963, 
+2024.
+Chen, Xiwen and Qiu, Peijie and Zhu, Wenhui and Li, Huayu and Wang, Hao and Sotiras, Aristeidis and Wang, Yalin and Razi, Abolfazl. 
+TimeMIL: Advancing Multivariate Time Series Classification via a Time-aware Multiple Instance Learning. 
+ArXiv, 
+abs/2405.03140, 
+2024.
+{Xiong. 
+arXiv e-prints, 
+arXiv:2102.03902, 
+Yan, Tongtong and Wang, Dong and Sun, Shilong and Shen, Changqing and Peng, Zhike. 
+Novel sparse representation degradation modeling for locating informative frequency bands for Machine performance degradation assessment. 
+Mechanical Systems and Signal Processing, 
+179, 
+2022.
+Wu, Bo and Gao, Yangde and Feng, Songlin and Chanwimalueang, Theerasak. 
+Sparse Optimistic Based on Lasso-LSQR and Minimum Entropy De-Convolution with FARIMA for the Remaining Useful Life Prediction of Machinery. 
+Entropy, 
+20, 
+(10): 
+(747): 
+2018.
+Zhou, Xiao and Lin, Yong and Zhang, Weizhong and Zhang, Tong. 
+Sparse Invariant Risk Minimization. 
+162, 
+27222--27244, 
+2022.
+Zhang, Kun and Xie, Shaoan and Ng, Ignavier and Zheng, Yujia. 
+Causal Representation Learning from Multiple Distributions: A General Setting. 
+ArXiv, 
+abs/2402.05052, 
+2024.
+Smith, Wade A. and Randall, Robert B.. 
+Rolling element bearing diagnostics using the Case Western Reserve University data: A benchmark study. 
+Mechanical Systems and Signal Processing, 
+64-65, 
+100-131, 
+2015.
+Lessmeier, Christian and Kimotho, James Kuria and Zimmer, Detmar and Sextro, Walter. 
+Condition Monitoring of Bearing Damage in Electromechanical Drive Systems by Using Motor Current Signals of Electric Motors: A Benchmark Data Set for Data-Driven Classification. 
+PHM Society European Conference, 
+2016.
+Hou, Lei and Yi, Haiming and Jin, Yuhong and Gui, Min and Sui, Lianzheng and Zhang, Jianwei and Chen, Yu-shu. 
+An Inter-Shaft Bearing Fault Diagnosis Dataset from an Aero-Engine System. 
+Zheng, Huailiang and Yang, Yuantao and Yin, Jiancheng and Li, Yuqing and Wang, Rixin and Xu, Minqiang. 
+Deep Domain Generalization Combining A Priori Diagnosis Knowledge Toward Cross-Domain Fault Diagnosis of Rolling Bearing. 
+Ieee Transactions on Instrumentation and Measurement, 
+70, 
+2021.
+Kimotho, James Kuria and Sextro, Walter. 
+An approach for feature extraction and selection from non-trending data for machinery prognosis. 
