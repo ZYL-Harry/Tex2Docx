@@ -34,6 +34,7 @@
   │   ├── uploads/    // 上传文件临时存储目录
   │   │   └── temp_xxx/    // 自动生成的临时目录（含上传文件和解压后的图片）
   │   └── outputs/    // 转换生成的docx文件目录
+  ├── requirements.txt     // Web部署及功能依赖的主要第三方库
   └── introduction.txt     // 项目思路介绍
 * 主要源文件说明: 
   * main.cpp：文件转换的测试主函数，采用默认的测试文件
