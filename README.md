@@ -69,7 +69,7 @@
   * 附加依赖项：
     * minidocx.lib
     * pdfium.lib
-  * Web部署及功能依赖的主要第三方库：详见`requirements.txt`
+  * Web部署及功能依赖的主要第三方库：详见requirements.txt
 * 项目部署：
     * 编译convert2exe.cpp生成项目的exe可执行文件
     * 将后端文件main.py、可执行文件、依赖的动态链接库pdfium.dll、tool.py放置同一目录下
