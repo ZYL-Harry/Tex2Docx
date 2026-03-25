@@ -48,7 +48,8 @@
       * 主要头文件：document_docx.h, utils_write_xml.h
   * tex_attribute.h：tex文件中基本元素的属性，共解析与写入配置使用，包含字号、段落、特殊符号等
   * convert2exe.cpp：用于编译生成可执行文件
-  * tool.py：用于校对、优化的智能体推理辅助函数，包括`get_polish_suggestions`函数
+  * main.py：部署后使用的基于Flask的Web应用文件，用于处理文件上传、调用C++引擎Project1.exe进行TeX到DOCX的转换、以及文件下载、校对优化和智能聊天功能
+  * tool.py：用于校对、优化的智能体推理辅助函数，主要包括`get_polish_suggestions`函数
 * 主要库：
   * minidocx: 生成Docx文件的基本元素，包括设置对齐、段落、字体、大小、颜色、图像、表格
   * pdfium: 读取PDF图片文件，辅助实现图片由PDF到高清PNG的转换
